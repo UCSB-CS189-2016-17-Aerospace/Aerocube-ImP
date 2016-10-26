@@ -1,0 +1,21 @@
+#Build caches
+build*/
+bin/
+gen/
+libs/
+
+#Eclipse files
+/.cproject
+/.project
+.settings
+.directory
+
+#Markdown cache
+*.md.html
+
+#???
+/Default
+
+#Python cache
+*.pyc
+
