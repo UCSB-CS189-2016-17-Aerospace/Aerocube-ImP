@@ -86,8 +86,8 @@ if(${OpenCV_VERSION} VERSION_GREATER 2.9.0)
     add_definitions(-DOPENCV3)
 endif()
 
-include_directories(include)
-add_subdirectory(src)
+include_directories(${CMAKE_SOURCE_DIR}/lib/chilitags/include)
+add_subdirectory(${CMAKE_SOURCE_DIR}/lib/chilitags/src)
 
 ##########################################
 ##           Modules                   ###
@@ -96,19 +96,19 @@ add_subdirectory(src)
 include("${CMAKE_SOURCE_DIR}/cmake/TargetDoc.cmake" OPTIONAL)
 
 if (WITH_TOOLS)
-    add_subdirectory(tools)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/lib/chilitags/tools)
 endif()
 
 if (WITH_SAMPLES)
-    add_subdirectory(samples)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/lib/chilitags/samples)
 endif()
 
 if(WITH_TESTS)
-    add_subdirectory(test)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/lib/chilitags/test)
 endif()
 
 if(WITH_JNI_BINDINGS)
-    add_subdirectory(platforms/jni/src)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/lib/chilitags/platforms/jni/src)
 endif()
 
 if(ANDROID_INSTALL_LIBRARIES)
