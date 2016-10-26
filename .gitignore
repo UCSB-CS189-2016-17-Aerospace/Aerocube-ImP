@@ -32,6 +32,21 @@
 *.out
 *.app
 
+## Build directory
+build/*.exe
+build/*.out
+build/*.app
+
+# Ignore the build and lib dirs
+build
+# lib/*
+
+# Ignore any executables
+bin/*
+
+# Ignore Mac specific files
+.DS_Store
+
 ## CMake C++ Stuff
 # Cmake Gitignore Stuff
 CMakeCache.txt
