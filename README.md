@@ -1,10 +1,18 @@
 # Aerocube-ImP
-This library will handle some of the image processing magic, voodoo for now.
+This library will handle some of the image processing magic/voodoo for now.
 
+
+[[https://github.com/UCSB-CS189-2016-17-Aerospace/Aerocube-ImP/blob/master/docs/angel-marker7.png|alt=Angel holding marker 7]]
+
+# Dependencies
+## Chilitag Dependencies
+See source Chilitags repository for reference: <https://github.com/chili-epfl/chilitags>
+
+Install OpenCV Libraries and CMake
+
+`sudo apt-get install libopencv-dev cmake`
 
 # Instructions
-
-
 To build the project:
 ```
 mkdir build && cd build
