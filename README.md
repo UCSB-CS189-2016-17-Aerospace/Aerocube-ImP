@@ -1,8 +1,5 @@
 # Aerocube-ImP
-This library will handle some of the image processing magic/voodoo for now.
-
-
-[[https://github.com/UCSB-CS189-2016-17-Aerospace/Aerocube-ImP/blob/master/docs/angel-marker7.png|alt=Angel holding marker 7]]
+This library will handle image processing, image detection algorithms, and other computer vision voodoo-features for detecting our CubeSatellite.
 
 # Dependencies
 ## Chilitag Dependencies
@@ -20,7 +17,7 @@ cmake ..
 make
 ```
 
-To build and execute chilitags samples: 
+To build and execute chilitags samples:
 
 ```
 mkdir build && cd build
@@ -40,10 +37,10 @@ make
   * ImP - 0.0.1 - (10/23-10/29)
     * Chilitags is imported
     * Chilitags dependency is compiling with a global CMake
+    * Fiducial Marker detection samples running
 
 
 # Licenses
 Credit goes to Chilitags for providing Fiducial Marker tracking software.
 
 Chilitags: Robust Fiducial Markers for Augmented Reality. Q. Bonnard, S. Lemaignan, G. Zufferey, A. Mazzei, S. Cuendet, N. Li, P. Dillenbourg. CHILI, EPFL, Switzerland. http://chili.epfl.ch/software. 2013.
-
