@@ -1,8 +1,6 @@
 # Aerocube-ImP
 This library will handle image processing, image detection algorithms, and other computer vision voodoo-features for detecting our CubeSatellite.
 
-fdefdsafds
-test
 # Dependencies
 ## Chilitag Dependencies
 See source Chilitags repository for reference: <https://github.com/chili-epfl/chilitags>
