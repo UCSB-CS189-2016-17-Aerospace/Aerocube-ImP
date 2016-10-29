@@ -1,7 +1,7 @@
 
 // Open CV Dependencies
 #include <opencv2/highgui/highgui.hpp>
-
+#include <opencv2/imgproc.hpp>
 int main() {
   // 512 rows, 512 columns
   cv::Mat img(512, 512, CV_8UC3, cv::Scalar(0));
