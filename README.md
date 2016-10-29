@@ -49,3 +49,39 @@ For example, drawings functions were moved to <opencv2/imgproc.hpp> in opencv3.
 Credit goes to Chilitags for providing Fiducial Marker tracking software.
 
 Chilitags: Robust Fiducial Markers for Augmented Reality. Q. Bonnard, S. Lemaignan, G. Zufferey, A. Mazzei, S. Cuendet, N. Li, P. Dillenbourg. CHILI, EPFL, Switzerland. http://chili.epfl.ch/software. 2013.
+
+
+# Tests
+
+## Run Tests
+```
+# Assumes you are in the project root folder
+mkdir build && cd build
+cmake -DTESTS=ON ..
+make runTests # runs the runTests test-suite
+./runTests
+```
+
+## Test Dependencies
+This repository uses GoogleTest (GTest) on Ubuntu for testing.
+
+To run tests, packages and linked libraries are required on your host machine (not this repository).
+
+```
+# Install the GTest development package
+sudo apt-get install libgtest-dev
+
+# Find the source files at /usr/src/gtest/
+# This repo assumes that cmake is installed. So `sudo apt-get install cmake` is not required if already present.
+
+cd /usr/src/gtest
+sudo cmake CMakeLists.txt
+sudo make
+
+# copy or symlink libgtest.a and libgtest_main.a to your /usr/lib folder
+sudo cp *.a /usr/lib
+
+# FIN - GTest should be installed on the machine, so now CMake should be able to  find the GTest
+
+```
+

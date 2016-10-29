@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
-TEST (SquareRootTest, PositiveNos) {
-  EXPECT_EQ (18.0, square-root (324.0));
-  EXPECT_EQ (25.4, square-root (646.16));
-  EXPECT_EQ (50.3321, square-root(2533.310224));
+TEST (SameNumberTest, PositiveNos) {
+  EXPECT_EQ (18.0, 18);
+  EXPECT_EQ (25.4, 25.4);
+  EXPECT_NE (50.3321, 25);
 }
 
 
