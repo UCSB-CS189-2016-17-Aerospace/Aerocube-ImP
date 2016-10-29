@@ -1,7 +1,7 @@
 # detect mistakes --warn-unitialized
 cmake_minimum_required (VERSION 2.8)
 
-option(test "Build all tests" OFF)
+option(TEST "Build all tests" OFF)
 
 set(PROJECT_NAME ImP)
 
@@ -20,3 +20,8 @@ target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
 include(${CMAKE_CURRENT_SOURCE_DIR}/lib/chilitags/CMakeLists.txt)
 
 
+# Define the Test Suite Behavior cmake -DTEST=ON
+#if (TEST)
+#  add_subdirectory(lib/gtest)
+#  enable_testing()
+#  include_directories(${gtest}
