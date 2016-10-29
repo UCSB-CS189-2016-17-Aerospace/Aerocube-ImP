@@ -39,6 +39,11 @@ make
     * Chilitags dependency is compiling with a global CMake
     * Fiducial Marker detection samples running
 
+# Troubleshooting
+If you encounter any errors written as "error: No member named ... in namespace cv", then you may be running OpenCV3, rather than OpenCV2. 
+To resolve any potential 'No member named ... in namespace cv errors', please include the correct header files, as some functions may be moved during the OpenCV version bump to 3.0.
+For example, drawings functions were moved to <opencv2/imgproc.hpp> in opencv3.
+
 
 # Licenses
 Credit goes to Chilitags for providing Fiducial Marker tracking software.
