@@ -4,7 +4,10 @@ from cv2 import aruco
 class FiducialMarker:
     __dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
     __default_side_pixels = 6
-    __defaultSidePixels = 1
+
+    @staticmethod
+    def get_dictionary():
+        return FiducialMarker.__dictionary
 
     @staticmethod
     def generate_marker(ID, side_pixels=__default_side_pixels):

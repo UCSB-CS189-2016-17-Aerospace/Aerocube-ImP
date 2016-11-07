@@ -7,6 +7,26 @@ import unittest
 class TestFiducialMarker(unittest.TestCase):
 
     @staticmethod
+    def test_get_dictionary():
+        """
+        compare public attributes of dictionary to confirm equality
+        """
+        err_msg = "get_dictionary failed"
+        dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
+        TestFiducialMarker().assertTrue(numpy.array_equal(
+                            FiducialMarker.get_dictionary().bytesList,
+                            dictionary.bytesList),
+                            err_msg)
+        TestFiducialMarker().assertEqual(
+                            FiducialMarker.get_dictionary().markerSize,
+                            dictionary.markerSize,
+                            err_msg)
+        TestFiducialMarker().assertEqual(
+                            FiducialMarker.get_dictionary().maxCorrectionBits,
+                            dictionary.maxCorrectionBits,
+                            err_msg)
+
+    @staticmethod
     def test_positive_generate_marker():
         # img_true attained from output in python3 shell of following inputs:
         # dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
@@ -35,6 +55,7 @@ class TestFiducialMarker(unittest.TestCase):
 
 if __name__ == '__main__':
     print("Starting tests for TestFiducialMarker.")
+    TestFiducialMarker.test_get_dictionary()
     TestFiducialMarker.test_positive_generate_marker()
     TestFiducialMarker.test_negative_generate_marker()
     print("Concluding tests for TestFiducialMarker.")
