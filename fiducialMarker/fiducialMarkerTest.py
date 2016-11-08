@@ -68,15 +68,15 @@ class TestAeroCubeMarker(unittest.TestCase):
         # due to Python name mangling for private method, must
         # prepend method call with class name:
         # http://stackoverflow.com/questions/17709040/calling-a-method-from-a-parent-class-in-python
-        test_marker_IDs = AeroCubeMarker._AeroCubeMarker__get_aerocube_marker_IDs(1)
+        test_marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(1)
         TestAeroCubeMarker().assertTrue(numpy.array_equal(
                                         marker_IDs,
                                         test_marker_IDs),
-                                        "__get_aerocube_marker_IDs failed")
+                                        "_get_aerocube_marker_IDs failed")
 
     @staticmethod
     def test_positive_get_aerocube_marker_set():
-        marker_IDs = AeroCubeMarker._AeroCubeMarker__get_aerocube_marker_IDs(1)
+        marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(1)
         marker_imgs = [FiducialMarker.draw_marker(ID) for ID in marker_IDs]
         TestAeroCubeMarker().assertTrue(numpy.array_equal(
                                     marker_imgs,
@@ -89,7 +89,7 @@ class TestAeroCubeMarker(unittest.TestCase):
         Verify that, given two different AeroCube IDs, the two sets of marker
         images do not share any images
         """
-        marker_IDs = AeroCubeMarker._AeroCubeMarker__get_aerocube_marker_IDs(0)
+        marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(0)
         marker_imgs = [FiducialMarker.draw_marker(ID) for ID in marker_IDs]
         test_marker_imgs = AeroCubeMarker.get_aerocube_marker_set(1)
         pass
