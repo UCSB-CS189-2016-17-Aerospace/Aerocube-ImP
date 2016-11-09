@@ -43,6 +43,10 @@ class AeroCubeMarker(FiducialMarker):
         LEFT = 5
 
     @staticmethod
+    def _valid_aerocube_ID(ID):
+        return ID >= 0 and ID*AeroCubeMarker._NUM_AEROCUBE_SIDES + AeroCubeMarker._NUM_AEROCUBE_SIDES <= AeroCubeMarker.get_dictionary_size()
+
+    @staticmethod
     def _get_aerocube_marker_IDs(aerocube_ID):
         """
         Get the list of marker IDs for a given AeroCube and it's ID
@@ -51,10 +55,10 @@ class AeroCubeMarker(FiducialMarker):
         :param aerocube_ID: ID of the AeroCube
         :return: array of marker IDs that can be used to attain marker images
         """
+        if not AeroCubeMarker._valid_aerocube_ID(aerocube_ID):
+            raise IDOutOfDictionaryBoundError('Invalid AeroCube ID(s)')
         base_marker_ID = aerocube_ID * AeroCubeMarker._NUM_AEROCUBE_SIDES
         end_marker_ID = base_marker_ID + AeroCubeMarker._NUM_AEROCUBE_SIDES
-        if end_marker_ID > AeroCubeMarker.get_dictionary_size():
-            raise IDOutOfDictionaryBoundError('Invalid AeroCube ID(s)')
         return list(range(base_marker_ID, end_marker_ID))
 
     @staticmethod

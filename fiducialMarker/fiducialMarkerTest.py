@@ -63,7 +63,20 @@ class TestFiducialMarker(unittest.TestCase):
 class TestAeroCubeMarker(unittest.TestCase):
 
     @staticmethod
-    def test_get_aerocube_marker_IDs():
+    def test_valid_aerocube_ID():
+        valid_IDs = range(0, 7)
+        for ID in valid_IDs:
+            TestAeroCubeMarker().assertTrue(
+                AeroCubeMarker._valid_aerocube_ID(ID),
+                "test_valid_aerocube_ID failed on {}".format(ID))
+        invalid_IDs = [-1, 8, 9]
+        for ID in invalid_IDs:
+            TestAeroCubeMarker().assertFalse(
+                AeroCubeMarker._valid_aerocube_ID(ID),
+                "test_valid_aerocube_ID failed on {}".format(ID))
+
+    @staticmethod
+    def test_positive_get_aerocube_marker_IDs():
         marker_IDs = [6, 7, 8, 9, 10, 11]
         # due to Python name mangling for private method, must
         # prepend method call with class name:
@@ -73,6 +86,13 @@ class TestAeroCubeMarker(unittest.TestCase):
                                         marker_IDs,
                                         test_marker_IDs),
                                         "_get_aerocube_marker_IDs failed")
+
+    @staticmethod
+    def test_error_get_aerocube_marker_IDs():
+        invalid_IDs = [-1, 8, 9]
+        for ID in invalid_IDs:
+            with TestAeroCubeMarker().assertRaises(IDOutOfDictionaryBoundError):
+                AeroCubeMarker._get_aerocube_marker_IDs(ID)
 
     @staticmethod
     def test_positive_get_aerocube_marker_set():
@@ -92,26 +112,13 @@ class TestAeroCubeMarker(unittest.TestCase):
         marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(0)
         marker_imgs = [FiducialMarker.draw_marker(ID) for ID in marker_IDs]
         test_marker_imgs = AeroCubeMarker.get_aerocube_marker_set(1)
-        pass
-        # print(marker_imgs)
-        # print(numpy.in1d(marker_imgs, test_marker_imgs))
-        # print(numpy.any(numpy.in1d(
-        #                             marker_imgs,
-        #                             test_marker_imgs)))
-        # TestAeroCubeMarker().assertFalse(numpy.any(numpy.in1d(
-        #                             marker_imgs,
-        #                             test_marker_imgs)),
-        #                             "negative_get_aerocube_marker_set failed")
+        for img in marker_imgs:
+            for test_img in test_marker_imgs:
+                TestAeroCubeMarker().assertFalse(numpy.array_equal(
+                                    img,
+                                    test_img),
+                                    "negative_get_aerocube_marker_set failed"
+                )
 
 if __name__ == '__main__':
-    print("Starting tests for TestFiducialMarker.")
-    TestFiducialMarker.test_get_dictionary()
-    TestFiducialMarker.test_get_dictionary_size()
-    TestFiducialMarker.test_positive_draw_marker()
-    TestFiducialMarker.test_negative_draw_marker()
-    print("Concluding tests for TestFiducialMarker.")
-    print("Starting tests for TestAeroCubeMarker.")
-    TestAeroCubeMarker.test_get_aerocube_marker_IDs()
-    TestAeroCubeMarker.test_positive_get_aerocube_marker_set()
-    TestAeroCubeMarker.test_negative_get_aerocube_marker_set()
-    print("Concluding tests for TestAeroCubeMarker.")
+    unittest.main()
