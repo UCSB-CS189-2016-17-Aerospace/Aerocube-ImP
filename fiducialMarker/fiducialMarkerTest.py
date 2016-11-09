@@ -1,5 +1,5 @@
 from cv2 import aruco
-from fiducialMarker import FiducialMarker, AeroCubeMarker, \
+from fiducialMarker import FiducialMarker, AeroCubeMarker, AeroCubeFace, \
     IDOutOfDictionaryBoundError
 import numpy
 import unittest
@@ -63,6 +63,12 @@ class TestFiducialMarker(unittest.TestCase):
 class TestAeroCubeMarker(unittest.TestCase):
 
     @staticmethod
+    def test_init():
+        # TODO: allow instances of AeroCubeMarker class to hold marker array
+        # and metadata about marker (e.g., AeroCube ID, face)
+        pass
+
+    @staticmethod
     def test_valid_aerocube_ID():
         valid_IDs = range(0, 7)
         for ID in valid_IDs:
@@ -118,13 +124,13 @@ class TestAeroCubeMarker(unittest.TestCase):
                                     img,
                                     test_img),
                                     "negative_get_aerocube_marker_set failed"
-                )
+                                    )
 
     @staticmethod
-    def test_init():
-        # TODO: allow instances of AeroCubeMarker class to hold marker array
-        # and metadata about marker (e.g., AeroCube ID, face)
-        pass
+    def test_identify_marker():
+        aerocube_tuple = (1, AeroCubeFace.LEFT)
+        test_tuple = AeroCubeMarker.identify_marker_ID(11)
+        TestAeroCubeMarker().assertEqual(aerocube_tuple, test_tuple)
 
 if __name__ == '__main__':
     unittest.main()

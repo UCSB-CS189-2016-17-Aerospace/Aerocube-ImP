@@ -33,14 +33,12 @@ class FiducialMarker:
 
 class AeroCubeMarker(FiducialMarker):
     _NUM_AEROCUBE_SIDES = 6
+    _aerocube_ID = None
+    _aerocube_face = None
 
-    class AeroCubeFace(Enum):
-        TOP = 0
-        BOTTOM = 1
-        FRONT = 2
-        RIGHT = 3
-        BACK = 4
-        LEFT = 5
+    def __init__(self, aerocube_ID, aerocube_face):
+        self._aerocube_ID = aerocube_ID
+        self._aerocube_face = aerocube_face
 
     @staticmethod
     def _valid_aerocube_ID(ID):
@@ -65,6 +63,20 @@ class AeroCubeMarker(FiducialMarker):
     def get_aerocube_marker_set(aerocube_ID):
         marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(aerocube_ID)
         return [AeroCubeMarker.draw_marker(ID) for ID in marker_IDs]
+
+    @staticmethod
+    def identify_marker_ID(marker_ID):
+        if marker_ID >= AeroCubeMarker.get_dictionary_size() or marker_ID < 0:
+            raise IDOutOfDictionaryBoundError('Invalid Marker ID')
+        aerocube_ID = marker_ID // AeroCubeMarker._NUM_AEROCUBE_SIDES
+        aerocube_face = marker_ID % AeroCubeMarker._NUM_AEROCUBE_SIDES
+        return (aerocube_ID, aerocube_face)
+
+
+class AeroCubeFace(Enum):
+    # Zenith is defined as the side facing away from the Earth
+    # Nadir is defined as the side facing towards the Earth
+    ZENITH, NADIR, FRONT, RIGHT, BACK, LEFT = range(6)
 
 
 class IDOutOfDictionaryBoundError(Exception):
