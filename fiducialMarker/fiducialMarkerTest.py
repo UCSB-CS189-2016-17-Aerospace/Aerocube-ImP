@@ -120,5 +120,11 @@ class TestAeroCubeMarker(unittest.TestCase):
                                     "negative_get_aerocube_marker_set failed"
                 )
 
+    @staticmethod
+    def test_init():
+        # TODO: allow instances of AeroCubeMarker class to hold marker array
+        # and metadata about marker (e.g., AeroCube ID, face)
+        pass
+
 if __name__ == '__main__':
     unittest.main()
