@@ -69,7 +69,7 @@ class AeroCubeMarker(FiducialMarker):
         if marker_ID >= AeroCubeMarker.get_dictionary_size() or marker_ID < 0:
             raise IDOutOfDictionaryBoundError('Invalid Marker ID')
         aerocube_ID = marker_ID // AeroCubeMarker._NUM_AEROCUBE_SIDES
-        aerocube_face = marker_ID % AeroCubeMarker._NUM_AEROCUBE_SIDES
+        aerocube_face = AeroCubeFace(marker_ID % AeroCubeMarker._NUM_AEROCUBE_SIDES)
         return (aerocube_ID, aerocube_face)
 
 
@@ -84,6 +84,3 @@ class IDOutOfDictionaryBoundError(Exception):
     Raised when attempting to access ID values
     outside of the range of the dictionary
     """
-
-if __name__ == '__main__':
-    print(AeroCubeMarker.get_aerocube_marker_set(1))
