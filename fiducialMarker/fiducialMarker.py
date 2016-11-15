@@ -42,7 +42,10 @@ class AeroCubeMarker(FiducialMarker):
 
     @staticmethod
     def _valid_aerocube_ID(ID):
-        return ID >= 0 and ID*AeroCubeMarker._NUM_AEROCUBE_SIDES + AeroCubeMarker._NUM_AEROCUBE_SIDES <= AeroCubeMarker.get_dictionary_size()
+        return (
+            ID >= 0 and
+            ID*AeroCubeMarker._NUM_AEROCUBE_SIDES + AeroCubeMarker._NUM_AEROCUBE_SIDES <= AeroCubeMarker.get_dictionary_size()
+        )
 
     @staticmethod
     def _get_aerocube_marker_IDs(aerocube_ID):

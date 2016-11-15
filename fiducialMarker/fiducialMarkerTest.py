@@ -40,6 +40,9 @@ class TestFiducialMarker(unittest.TestCase):
         img_test = FiducialMarker.draw_marker(0, 6)
         self.assertTrue(numpy.array_equal(img_true, img_test),
                         "positive_generate_marker failed")
+        img_test = FiducialMarker.draw_marker(0)
+        self.assertTrue(numpy.array_equal(img_true, img_test),
+                        "positive_generate_marker failed")
 
     def test_negative_draw_marker(self):
         img_true = numpy.array([[0,   0,   0,   0,   0,   0],
@@ -48,7 +51,7 @@ class TestFiducialMarker(unittest.TestCase):
                                 [0,   0,   0, 255, 255,   0],
                                 [0,   0,   0, 255,   0,   0],
                                 [0,   0,   0,   0,   0,   0]])
-        img_test = FiducialMarker.draw_marker(0, 6)
+        img_test = FiducialMarker.draw_marker(ID=0, side_pixels=6)
         self.assertFalse(numpy.array_equal(img_true, img_test),
                          "negative_generate_marker failed")
 
