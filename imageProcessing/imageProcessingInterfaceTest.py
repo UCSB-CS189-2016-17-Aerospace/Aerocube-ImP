@@ -1,3 +1,8 @@
+# relative imports are still troublesome -- temporary fix
+# see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
+import sys
+sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
+from fiducialMarkerModule import aerocubeMarker
 import unittest
 from imageProcessingInterface import ImageProcessor
 import cv2
@@ -29,7 +34,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         ids = numpy.array([[0]])
         # get results of function
         imp = ImageProcessor(self.test_img_path)
-        test_corners, test_ids, _ = imp._find_fiducial_markers()
+        test_corners, test_ids = imp._find_fiducial_markers()
         # print(corners)
         # print(test_corners)
         # print(test_ids)
@@ -39,6 +44,23 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # save output image for visual confirmation
         output_img = aruco.drawDetectedMarkers(imp._image_mat, test_corners, test_ids)
         cv2.imwrite(self.test_output_path, output_img)
+
+    def test_find_aerocube_marker(self):
+        # hard code results of operation
+        corners = numpy.array([[[ 82.,   51.],
+                                [ 453.,   51.],
+                                [ 454.,  417.],
+                                [  82.,  417.]]])
+        aerocube_ID = 0
+        aerocube_face = aerocubeMarker.AeroCubeFace.ZENITH
+        true_markers = numpy.array([aerocubeMarker.AeroCubeMarker(aerocube_ID,
+                                                          aerocube_face,
+                                                          corners)])
+        # get results of function
+        imp = ImageProcessor(self.test_img_path)
+        aerocube_markers = imp._find_aerocube_markers()
+        # assert equality of arrays
+        self.assertTrue(numpy.array_equal(true_markers, aerocube_markers))
 
     def test_identify_aerocubes(self):
         self.assertTrue(False)

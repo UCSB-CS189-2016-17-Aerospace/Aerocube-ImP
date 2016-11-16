@@ -1,6 +1,6 @@
 from cv2 import aruco
-from fiducialMarker import FiducialMarker, AeroCubeMarker, AeroCubeFace, \
-    IDOutOfDictionaryBoundError
+from fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
+from aerocubeMarker import AeroCubeMarker, AeroCubeFace
 import numpy
 import unittest
 
@@ -58,6 +58,7 @@ class TestFiducialMarker(unittest.TestCase):
 
 class TestAeroCubeMarker(unittest.TestCase):
 
+    # TODO: need to test new constuctor args (corners)
     def test_init(self):
         marker_obj = AeroCubeMarker(1, AeroCubeFace.LEFT)
         self.assertEqual(marker_obj._aerocube_ID, 1)

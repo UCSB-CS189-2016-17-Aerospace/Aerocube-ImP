@@ -1,16 +1,16 @@
-import cv2
-from cv2 import aruco
 # relative imports are still troublesome -- temporary fix
 # see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
 import sys
 sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
-from fiducialMarker import fiducialMarker
+from fiducialMarkerModule import aerocubeMarker
+import cv2
+from cv2 import aruco
 import os
 
 
 class ImageProcessor:
     _image_mat = None
-    _DICTIONARY = fiducialMarker.FiducialMarker.get_dictionary()
+    _DICTIONARY = aerocubeMarker.AeroCubeMarker.get_dictionary()
 
     def __init__(self, file_path):
         self._image_mat = self._load_image(file_path)
@@ -24,19 +24,30 @@ class ImageProcessor:
         """
         image = cv2.imread(file_path)
         if image is None:
-            raise OSError("cv2.imread returned with none for path " + file_path)
+            raise OSError("cv2.imread returned None for path {}".format(file_path))
         return image
 
-    # TODO: convert _find_fiducial_markers to _find_aerocube_markers, which is
-    # responsible for calling aruco.detectMarkers and iterating through
-    # (corners, marker_IDs) tuples and constructing AeroCubeMarker instances
     def _find_fiducial_markers(self):
         """
-        Identify fiducial markers in _image_mat
+        Identify fiducial markers in _image_mat, and serves as an abstraction
+        of the aruco method calls
         :return:
         """
-        (corners, marker_IDs, rejected_img_pts) = aruco.detectMarkers(self._image_mat, dictionary=self._DICTIONARY)
-        return (corners, marker_IDs, rejected_img_pts)
+        (corners, marker_IDs, _) = aruco.detectMarkers(self._image_mat, dictionary=self._DICTIONARY)
+        return (corners, marker_IDs)
+
+    def _find_aerocube_markers(self):
+        """
+        Calls a private function to find all fiducial markers, then constructs
+        AeroCubeMarker objects from those results
+        """
+        corners, marker_IDs = self._find_fiducial_markers()
+        aerocube_IDs, aerocube_faces = zip(*[aerocubeMarker.AeroCubeMarker.identify_marker_ID(ID) for ID in marker_IDs])
+        aerocube_markers = list()
+        for ID, face, marker_corners in zip(aerocube_IDs, aerocube_faces, corners):
+            # because ID is in the form of [id_int], get the element
+            aerocube_markers.append(aerocubeMarker.AeroCubeMarker(ID[0], face, marker_corners))
+        return aerocube_markers
 
     # TODO: given an array of AeroCubeMarker objects, return an array of
     # AeroCube objects with their respective AeroCubeMarker objects

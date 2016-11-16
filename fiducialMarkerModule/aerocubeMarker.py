@@ -1,34 +1,6 @@
-from cv2 import aruco
+from fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 from enum import Enum
-
-
-class FiducialMarker:
-    _dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
-    _dictionary_size = 50
-    _default_side_pixels = 6
-
-    @staticmethod
-    def get_dictionary():
-        return FiducialMarker._dictionary
-
-    @staticmethod
-    def get_dictionary_size():
-        return FiducialMarker._dictionary_size
-
-    @staticmethod
-    def draw_marker(ID, side_pixels=_default_side_pixels):
-        """
-        Draw a marker from the predetermined dictionary given its ID in the
-        dictionary and the number of side_pixels
-        :param ID: marker ID from the _dictionary
-        :param side_pixels: number of pixels per side, and must be chosen s.t.
-        side_pixels >= marker_side_pixels + borderBits
-        (borderBits defaults to 2)
-        :return: img of marker, represented by 2-D array of uint8 type
-        """
-        img_marker = aruco.drawMarker(FiducialMarker._dictionary,
-                                      ID, side_pixels)
-        return img_marker
+import numpy
 
 
 class AeroCubeMarker(FiducialMarker):
@@ -39,9 +11,22 @@ class AeroCubeMarker(FiducialMarker):
     _rvec = None  # rotation vector
     _tvec = None  # translation vector
 
-    def __init__(self, aerocube_ID, aerocube_face):
+    # TODO: needs test
+    def __init__(self, aerocube_ID, aerocube_face, corners):
         self._aerocube_ID = aerocube_ID
         self._aerocube_face = aerocube_face
+        self._corners = corners
+
+    # TODO: validate aerocube attributes through properties
+
+    # TODO: needs test
+    def __eq__(self, other):
+        if type(self) is type(other):
+            return (self._aerocube_ID == other._aerocube_ID and
+                    self._aerocube_face == other._aerocube_face and
+                    numpy.array_equal(self._corners, other._corners))
+        else:
+            return False
 
     @staticmethod
     def _valid_aerocube_ID(ID):
@@ -65,7 +50,7 @@ class AeroCubeMarker(FiducialMarker):
         end_marker_ID = base_marker_ID + AeroCubeMarker._NUM_AEROCUBE_SIDES
         return list(range(base_marker_ID, end_marker_ID))
 
-    # TODO: wrap _get_aerocube_marker_IDs for try/catchh
+    # TODO: wrap _get_aerocube_marker_IDs for try/catch
     @staticmethod
     def get_aerocube_marker_set(aerocube_ID):
         marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(aerocube_ID)
@@ -90,10 +75,3 @@ class AeroCube():
     _markers = None
     _rvec = None
     _tvec = None
-
-
-class IDOutOfDictionaryBoundError(Exception):
-    """
-    Raised when attempting to access ID values
-    outside of the range of the dictionary
-    """
