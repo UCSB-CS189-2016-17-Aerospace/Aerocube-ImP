@@ -1,14 +1,14 @@
-# relative imports are still troublesome -- temporary fix
-# see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
-import sys
-sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
-from fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 from enum import Enum
 import numpy
+# relative imports are still troublesome -- temporary fix
+# http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
+import sys
+sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
+from fiducialMarkerModule.fiducialMarker import FiducialMarker, \
+                                                IDOutOfDictionaryBoundError
 
 
 class AeroCubeMarker(FiducialMarker):
-    _NUM_AEROCUBE_SIDES = 6
     _aerocube_ID = None
     _aerocube_face = None
     _corners = None
@@ -39,7 +39,7 @@ class AeroCubeMarker(FiducialMarker):
     def _valid_aerocube_ID(ID):
         return (
             ID >= 0 and
-            ID*AeroCubeMarker._NUM_AEROCUBE_SIDES + AeroCubeMarker._NUM_AEROCUBE_SIDES <= AeroCubeMarker.get_dictionary_size()
+            ID*AeroCube.NUM_SIDES + AeroCube.NUM_SIDES <= AeroCubeMarker.get_dictionary_size()
         )
 
     @staticmethod
@@ -53,8 +53,8 @@ class AeroCubeMarker(FiducialMarker):
         """
         if not AeroCubeMarker._valid_aerocube_ID(aerocube_ID):
             raise IDOutOfDictionaryBoundError('Invalid AeroCube ID(s)')
-        base_marker_ID = aerocube_ID * AeroCubeMarker._NUM_AEROCUBE_SIDES
-        end_marker_ID = base_marker_ID + AeroCubeMarker._NUM_AEROCUBE_SIDES
+        base_marker_ID = aerocube_ID * AeroCube.NUM_SIDES
+        end_marker_ID = base_marker_ID + AeroCube.NUM_SIDES
         return list(range(base_marker_ID, end_marker_ID))
 
     # TODO: wrap _get_aerocube_marker_IDs for try/catch
@@ -67,8 +67,8 @@ class AeroCubeMarker(FiducialMarker):
     def identify_marker_ID(marker_ID):
         if marker_ID >= AeroCubeMarker.get_dictionary_size() or marker_ID < 0:
             raise IDOutOfDictionaryBoundError('Invalid Marker ID')
-        aerocube_ID = marker_ID // AeroCubeMarker._NUM_AEROCUBE_SIDES
-        aerocube_face = AeroCubeFace(marker_ID % AeroCubeMarker._NUM_AEROCUBE_SIDES)
+        aerocube_ID = marker_ID // AeroCube.NUM_SIDES
+        aerocube_face = AeroCubeFace(marker_ID % AeroCube.NUM_SIDES)
         return (aerocube_ID, aerocube_face)
 
 
@@ -79,6 +79,7 @@ class AeroCubeFace(Enum):
 
 
 class AeroCube():
+    NUM_SIDES = 6
     _markers = None
     _rvec = None
     _tvec = None

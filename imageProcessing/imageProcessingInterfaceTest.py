@@ -1,7 +1,3 @@
-# relative imports are still troublesome -- temporary fix
-# see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
-import sys
-sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
 from aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 from imageProcessingInterface import ImageProcessor
 import unittest

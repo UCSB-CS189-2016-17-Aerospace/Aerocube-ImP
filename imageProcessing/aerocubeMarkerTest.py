@@ -1,12 +1,13 @@
-# relative imports are still troublesome -- temporary fix
-# see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
-import sys
-sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
-from fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 from aerocubeMarker import AeroCubeMarker, AeroCubeFace
 from cv2 import aruco
 import numpy
 import unittest
+# relative imports are still troublesome -- temporary fix
+# http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
+import sys
+sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
+from fiducialMarkerModule.fiducialMarker import FiducialMarker, \
+                                                IDOutOfDictionaryBoundError
 
 
 class TestAeroCubeMarker(unittest.TestCase):
