@@ -35,6 +35,9 @@ class AeroCubeMarker(FiducialMarker):
     _NUM_AEROCUBE_SIDES = 6
     _aerocube_ID = None
     _aerocube_face = None
+    _corners = None
+    _rvec = None  # rotation vector
+    _tvec = None  # translation vector
 
     def __init__(self, aerocube_ID, aerocube_face):
         self._aerocube_ID = aerocube_ID
@@ -62,6 +65,7 @@ class AeroCubeMarker(FiducialMarker):
         end_marker_ID = base_marker_ID + AeroCubeMarker._NUM_AEROCUBE_SIDES
         return list(range(base_marker_ID, end_marker_ID))
 
+    # TODO: wrap _get_aerocube_marker_IDs for try/catchh
     @staticmethod
     def get_aerocube_marker_set(aerocube_ID):
         marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(aerocube_ID)
@@ -80,6 +84,12 @@ class AeroCubeFace(Enum):
     # Zenith is defined as the side facing away from the Earth
     # Nadir is defined as the side facing towards the Earth
     ZENITH, NADIR, FRONT, RIGHT, BACK, LEFT = range(6)
+
+
+class AeroCube():
+    _markers = None
+    _rvec = None
+    _tvec = None
 
 
 class IDOutOfDictionaryBoundError(Exception):

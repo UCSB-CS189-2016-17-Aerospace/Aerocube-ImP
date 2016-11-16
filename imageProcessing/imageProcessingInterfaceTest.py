@@ -18,13 +18,11 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         self.assertIsNotNone(imp._load_image(self.test_img_path))
 
     def test_negative_load_image(self):
-        with self.assertRaises(OSError):
-            imp = ImageProcessor(self.test_img_path)
-
+        self.assertRaises(OSError, ImageProcessor, self.test_img_path + "NULL")
 
     def test_find_fiducial_marker(self):
         # hard code results of operation
-        corners = [numpy.array([[[  82.,   51.],
+        corners = [numpy.array([[[ 82.,   51.],
                                 [ 453.,   51.],
                                 [ 454.,  417.],
                                 [  82.,  417.]]])]
@@ -32,9 +30,9 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # get results of function
         imp = ImageProcessor(self.test_img_path)
         test_corners, test_ids, _ = imp._find_fiducial_markers()
-        print(corners)
-        print(test_corners)
-        print(test_ids)
+        # print(corners)
+        # print(test_corners)
+        # print(test_ids)
         # assert hard-coded results equal results of function
         self.assertTrue(numpy.array_equal(corners, test_corners))
         self.assertTrue(numpy.array_equal(ids, test_ids))
@@ -42,6 +40,8 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         output_img = aruco.drawDetectedMarkers(imp._image_mat, test_corners, test_ids)
         cv2.imwrite(self.test_output_path, output_img)
 
+    def test_identify_aerocubes(self):
+        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()
