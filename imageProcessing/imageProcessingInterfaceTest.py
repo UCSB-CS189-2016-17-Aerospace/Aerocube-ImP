@@ -2,9 +2,9 @@
 # see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
 import sys
 sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
-from fiducialMarkerModule import aerocubeMarker
-import unittest
+from aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 from imageProcessingInterface import ImageProcessor
+import unittest
 import cv2
 from cv2 import aruco
 import numpy
@@ -52,10 +52,10 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                 [ 454.,  417.],
                                 [  82.,  417.]]])
         aerocube_ID = 0
-        aerocube_face = aerocubeMarker.AeroCubeFace.ZENITH
-        true_markers = numpy.array([aerocubeMarker.AeroCubeMarker(aerocube_ID,
-                                                          aerocube_face,
-                                                          corners)])
+        aerocube_face = AeroCubeFace.ZENITH
+        true_markers = numpy.array([AeroCubeMarker(aerocube_ID,
+                                                   aerocube_face,
+                                                   corners)])
         # get results of function
         imp = ImageProcessor(self.test_img_path)
         aerocube_markers = imp._find_aerocube_markers()

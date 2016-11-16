@@ -2,7 +2,7 @@
 # see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
 import sys
 sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
-from fiducialMarkerModule import aerocubeMarker
+import aerocubeMarker
 import cv2
 from cv2 import aruco
 import os

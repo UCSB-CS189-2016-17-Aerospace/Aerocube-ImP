@@ -1,4 +1,8 @@
-from fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
+# relative imports are still troublesome -- temporary fix
+# see more here: http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
+import sys
+sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
+from fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 from enum import Enum
 import numpy
 
@@ -18,6 +22,9 @@ class AeroCubeMarker(FiducialMarker):
         self._corners = corners
 
     # TODO: validate aerocube attributes through properties
+    @property
+    def aerocube_ID(self):
+        return self._aerocube_ID
 
     # TODO: needs test
     def __eq__(self, other):
