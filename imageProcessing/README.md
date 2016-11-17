@@ -4,11 +4,13 @@
 2. Provide information about the attitude and position of an identified AeroCube
 
 ## Public Interface
+### ImageProcessor
 ### Exceptions
-**AeroCubeMarkerAttributeError**
-**IDOutOfDictionaryBoundError**
+* **AeroCubeMarkerAttributeError**
+* **IDOutOfDictionaryBoundError**
 
-## Identifying Markers
+## Aruco Usage
+### Identifying Markers
 ```
 detectMarkers(...)
        detectMarkers(image, dictionary[, corners[, ids[, parameters[, rejectedImgPoints]]]]) -> corners, ids, rejectedImgPoints
@@ -22,7 +24,7 @@ Return values:
 * **ids** - array of marker IDs based on the dictionary argument, respective to the corners
 * **rejectedImgPoints** - rejected candidate markers
 
-## Estimating Pose
+### Estimating Pose
 ```
 estimatePoseSingleMarkers(...)
         estimatePoseSingleMarkers(corners, markerLength, cameraMatrix, distCoeffs[, rvecs[, tvecs]]) -> rvecs, tvecs
@@ -32,6 +34,7 @@ Parameters:
 * **markerLength** - size of the marker side in meters or any other unit; the unit used will be used in rvec and tvec (see below)
 * **cameraMatrix** - camera calibration 3x3 matrix
 * **distCoeffs** - camera calibratian parameter
+
 Return values:
 * **rvecs** - rotation vectors for the given corners
 * **tvecs** - translation vectors for the given corners
