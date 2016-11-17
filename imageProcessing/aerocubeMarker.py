@@ -15,25 +15,49 @@ class AeroCubeMarker(FiducialMarker):
     _rvec = None  # rotation vector
     _tvec = None  # translation vector
 
-    # TODO: needs test
     def __init__(self, aerocube_ID, aerocube_face, corners):
-        self._aerocube_ID = aerocube_ID
-        self._aerocube_face = aerocube_face
-        self._corners = corners
-
-    # TODO: validate aerocube attributes through properties
-    @property
-    def aerocube_ID(self):
-        return self._aerocube_ID
+        self.aerocube_ID = aerocube_ID
+        self.aerocube_face = aerocube_face
+        self.corners = corners
 
     # TODO: needs test
     def __eq__(self, other):
         if type(self) is type(other):
-            return (self._aerocube_ID == other._aerocube_ID and
-                    self._aerocube_face == other._aerocube_face and
-                    numpy.array_equal(self._corners, other._corners))
+            return (self.aerocube_ID == other.aerocube_ID and
+                    self.aerocube_face == other.aerocube_face and
+                    numpy.array_equal(self.corners, other.corners))
         else:
             return False
+
+    @property
+    def aerocube_ID(self):
+        return self._aerocube_ID
+
+    @aerocube_ID.setter
+    def aerocube_ID(self, ID):
+        if not self._valid_aerocube_ID(ID):
+            raise AeroCubeMarkerAttributeError("Invalid AeroCube ID")
+        self._aerocube_ID = ID
+
+    @property
+    def aerocube_face(self):
+        return self._aerocube_face
+
+    @aerocube_face.setter
+    def aerocube_face(self, face):
+        if not isinstance(face, AeroCubeFace):
+            raise AeroCubeMarkerAttributeError("Invalid AeroCube face")
+        self._aerocube_face = face
+
+    @property
+    def corners(self):
+        return self._corners
+
+    @corners.setter
+    def corners(self, c):
+        if c.shape != (1, 4, 2):
+            raise AeroCubeMarkerAttributeError("Invalid corner matrix shape")
+        self._corners = c
 
     @staticmethod
     def _valid_aerocube_ID(ID):
@@ -83,3 +107,9 @@ class AeroCube():
     _markers = None
     _rvec = None
     _tvec = None
+
+
+class AeroCubeMarkerAttributeError(Exception):
+    """
+    Raised when an attribute of AeroCubeMarker is incorrectly assigned
+    """

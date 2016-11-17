@@ -1,7 +1,8 @@
-from aerocubeMarker import AeroCubeMarker, AeroCubeFace
 from cv2 import aruco
 import numpy
 import unittest
+from aerocubeMarker import AeroCubeMarker, AeroCubeFace, \
+                           AeroCubeMarkerAttributeError
 # relative imports are still troublesome -- temporary fix
 # http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
 import sys
@@ -11,12 +12,33 @@ from fiducialMarkerModule.fiducialMarker import FiducialMarker, \
 
 
 class TestAeroCubeMarker(unittest.TestCase):
+    VALID_CORNER_ARG = numpy.array([[[82.,  51.],
+                                     [453., 51.],
+                                     [454., 417.],
+                                     [82.,  417.]]])
+    INVALID_CORNER_ARG = numpy.array([[[82.,  51.],
+                                     [453., 51.],
+                                     [454., 417.]]])
 
-    # TODO: need to test new constuctor args (corners)
     def test_init(self):
-        marker_obj = AeroCubeMarker(1, AeroCubeFace.LEFT)
-        self.assertEqual(marker_obj._aerocube_ID, 1)
-        self.assertEqual(marker_obj._aerocube_face, AeroCubeFace.LEFT)
+        marker_obj = AeroCubeMarker(1, AeroCubeFace.LEFT, self.VALID_CORNER_ARG)
+        self.assertEqual(marker_obj.aerocube_ID, 1)
+        self.assertEqual(marker_obj.aerocube_face, AeroCubeFace.LEFT)
+        self.assertTrue(numpy.array_equal(marker_obj.corners, self.VALID_CORNER_ARG))
+
+    def test_invalid_init_parameters(self):
+        self.assertRaises(AeroCubeMarkerAttributeError, AeroCubeMarker,
+                          -1,  AeroCubeFace.LEFT,   self.VALID_CORNER_ARG)
+        self.assertRaises(AeroCubeMarkerAttributeError, AeroCubeMarker,
+                          0,                   1,   self.VALID_CORNER_ARG)
+        self.assertRaises(AeroCubeMarkerAttributeError, AeroCubeMarker,
+                          0,  AeroCubeFace.NADIR, self.INVALID_CORNER_ARG)
+
+    def test_positive_eq(self):
+        self.assertTrue(False)
+
+    def test_negative_eq(self):
+        self.assertTrue(False)
 
     def test_valid_aerocube_ID(self):
         valid_IDs = range(0, 7)
