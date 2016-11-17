@@ -3,6 +3,11 @@
 1. Given an image, identify AeroCubes and their IDs in the image
 2. Provide information about the attitude and position of an identified AeroCube
 
+## Public Interface
+### Exceptions
+**AeroCubeMarkerAttributeError**
+**IDOutOfDictionaryBoundError**
+
 ## Identifying Markers
 ```
 detectMarkers(...)

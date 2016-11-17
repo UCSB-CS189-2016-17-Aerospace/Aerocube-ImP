@@ -7,6 +7,10 @@ import numpy
 
 
 class TestImageProcessingInterfaceMethods(unittest.TestCase):
+    VALID_CORNER_MAT = numpy.array([[[82.,  51.],
+                                     [453., 51.],
+                                     [454., 417.],
+                                     [82.,  417.]]])
     test_img_path = "./test_files/marker_4X4_sp6_id0.png"
     test_output_path = "./test_files/output.png"
 
@@ -23,10 +27,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
 
     def test_find_fiducial_marker(self):
         # hard code results of operation
-        corners = [numpy.array([[[ 82.,   51.],
-                                [ 453.,   51.],
-                                [ 454.,  417.],
-                                [  82.,  417.]]])]
+        corners = [self.VALID_CORNER_MAT]
         ids = numpy.array([[0]])
         # get results of function
         imp = ImageProcessor(self.test_img_path)
@@ -43,10 +44,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
 
     def test_find_aerocube_marker(self):
         # hard code results of operation
-        corners = numpy.array([[[ 82.,   51.],
-                                [ 453.,   51.],
-                                [ 454.,  417.],
-                                [  82.,  417.]]])
+        corners = self.VALID_CORNER_MAT
         aerocube_ID = 0
         aerocube_face = AeroCubeFace.ZENITH
         true_markers = numpy.array([AeroCubeMarker(aerocube_ID,

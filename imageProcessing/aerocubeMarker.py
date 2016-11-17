@@ -20,7 +20,6 @@ class AeroCubeMarker(FiducialMarker):
         self.aerocube_face = aerocube_face
         self.corners = corners
 
-    # TODO: needs test
     def __eq__(self, other):
         if type(self) is type(other):
             return (self.aerocube_ID == other.aerocube_ID and
@@ -81,7 +80,6 @@ class AeroCubeMarker(FiducialMarker):
         end_marker_ID = base_marker_ID + AeroCube.NUM_SIDES
         return list(range(base_marker_ID, end_marker_ID))
 
-    # TODO: wrap _get_aerocube_marker_IDs for try/catch
     @staticmethod
     def get_aerocube_marker_set(aerocube_ID):
         marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(aerocube_ID)

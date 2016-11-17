@@ -16,6 +16,10 @@ class TestAeroCubeMarker(unittest.TestCase):
                                      [453., 51.],
                                      [454., 417.],
                                      [82.,  417.]]])
+    VALID_CORNER_ARG_1 = numpy.array([[[82.,  52.],
+                                     [453., 51.],
+                                     [454., 417.],
+                                     [82.,  417.]]])
     INVALID_CORNER_ARG = numpy.array([[[82.,  51.],
                                      [453., 51.],
                                      [454., 417.]]])
@@ -35,10 +39,18 @@ class TestAeroCubeMarker(unittest.TestCase):
                           0,  AeroCubeFace.NADIR, self.INVALID_CORNER_ARG)
 
     def test_positive_eq(self):
-        self.assertTrue(False)
+        marker_1 = AeroCubeMarker(4, AeroCubeFace.FRONT, self.VALID_CORNER_ARG)
+        marker_2 = AeroCubeMarker(4, AeroCubeFace.FRONT, self.VALID_CORNER_ARG)
+        self.assertTrue(marker_1 == marker_2)
 
     def test_negative_eq(self):
-        self.assertTrue(False)
+        marker_1 = AeroCubeMarker(4, AeroCubeFace.FRONT, self.VALID_CORNER_ARG)
+        marker_2 = AeroCubeMarker(3, AeroCubeFace.FRONT, self.VALID_CORNER_ARG)
+        self.assertFalse(marker_1 == marker_2)
+        marker_3 = AeroCubeMarker(4, AeroCubeFace.BACK, self.VALID_CORNER_ARG)
+        self.assertFalse(marker_1 == marker_3)
+        marker_4 = AeroCubeMarker(4, AeroCubeFace.FRONT, self.VALID_CORNER_ARG_1)
+        self.assertFalse(marker_1 == marker_4)
 
     def test_valid_aerocube_ID(self):
         valid_IDs = range(0, 7)
