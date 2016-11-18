@@ -13,7 +13,6 @@ class ImageProcessor:
 
     def _load_image(self, file_path):
         """
-
         :param file_path: Absolute path, from init argument,
         to load the image as a matrix into a variable
         :return:
@@ -25,9 +24,8 @@ class ImageProcessor:
 
     def _find_fiducial_markers(self):
         """
-        Identify fiducial markers in _image_mat, and serves as an abstraction
-        of the aruco method calls
-        :return:
+        Identify fiducial markers in _image_mat
+        Serves as an abstraction of the aruco method calls
         """
         (corners, marker_IDs, _) = aruco.detectMarkers(self._image_mat, dictionary=self._DICTIONARY)
         return (corners, marker_IDs)
