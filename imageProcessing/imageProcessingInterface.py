@@ -45,7 +45,7 @@ class ImageProcessor:
 
     # TODO: given an array of AeroCubeMarker objects, return an array of
     # AeroCube objects with their respective AeroCubeMarker objects
-    def _identify_aerocubes(self, fiducial_marker_IDs):
+    def _identify_aerocubes(self, aerocube_markers):
         """
         """
         pass
