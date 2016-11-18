@@ -56,3 +56,8 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
+
+## Python
+# Python Compiled Files
+*.pyc
+*__pycache__*
