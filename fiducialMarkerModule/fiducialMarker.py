@@ -1,3 +1,4 @@
+import numpy as np
 from cv2 import aruco
 
 
@@ -13,6 +14,14 @@ class FiducialMarker:
     @staticmethod
     def get_dictionary_size():
         return FiducialMarker._dictionary_size
+
+    @staticmethod
+    def dictionary_equal(dict1, dict2):
+        return (
+            np.array_equal(dict1.bytesList, dict2.bytesList) and
+            dict1.markerSize == dict2.markerSize and
+            dict1.maxCorrectionBits == dict2.maxCorrectionBits
+        )
 
     @staticmethod
     def draw_marker(ID, side_pixels=_default_side_pixels):
