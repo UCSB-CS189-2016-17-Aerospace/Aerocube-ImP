@@ -54,7 +54,6 @@ class CameraCalibration():
         :param file_path: path to which the board image will be drawn
         """
         board = CameraCalibration.get_charucoboard()
-        print(aruco.drawPlanarBoard(board, out_size))
         cv2.imwrite(file_path, aruco.drawPlanarBoard(board, out_size))
 
     @staticmethod
