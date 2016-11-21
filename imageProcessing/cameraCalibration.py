@@ -17,14 +17,16 @@ class CameraCalibration():
         with named tuples. Configurations should be instances of _Calibration
         with constant-style names (e.g., all upper-case).
         """
-        _Calibration = namedtuple("_Calibration", "RET_VAL \
+        _Calibration = namedtuple('_Calibration', 'RET_VAL \
                                                    CAMERA_MATRIX \
-                                                   DIST_COEFFS")
-        ANDREW_IPHONE = _Calibration(RET_VAL=3.551523274640683,
-                                     CAMERA_MATRIX=np.array([[3.48275636e+03, 0.00000000e+00, 2.02069885e+03],
-                                                             [0.00000000e+00, 3.52274282e+03, 1.51346685e+03],
-                                                             [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]),
-                                     DIST_COEFFS=np.array([[-4.58647345e-02, 1.73122392e+00, -3.30440816e-03, -7.78486275e-04, -7.00795983e+00]]))
+                                                   DIST_COEFFS')
+        ANDREW_IPHONE = _Calibration(
+            RET_VAL=3.551523274640683,
+            CAMERA_MATRIX=np.array([[3.48275636e+03, 0.00000000e+00, 2.02069885e+03],
+                                    [0.00000000e+00, 3.52274282e+03, 1.51346685e+03],
+                                    [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]),
+            DIST_COEFFS=np.array([[-4.58647345e-02, 1.73122392e+00, -3.30440816e-03, -7.78486275e-04, -7.00795983e+00]])
+        )
 
     @staticmethod
     def get_charucoboard():
@@ -73,7 +75,12 @@ class CameraCalibration():
             # Convert to grayscale before performing operations
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             corners, IDs, _ = aruco.detectMarkers(gray, dictionary)
-            _, charuco_corners, charuco_IDs = aruco.interpolateCornersCharuco(corners, IDs, gray, board)
+            _, charuco_corners, charuco_IDs = aruco.interpolateCornersCharuco(
+                                                                corners,
+                                                                IDs,
+                                                                gray,
+                                                                board
+                                              )
             all_charuco_corners.append(charuco_corners)
             all_charuco_IDs.append(charuco_IDs)
             # Get matrix shape of grayscale image
