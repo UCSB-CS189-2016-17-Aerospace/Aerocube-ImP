@@ -12,19 +12,22 @@ class TestFiducialMarker(unittest.TestCase):
         """
         err_msg = "get_dictionary failed"
         dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
-        self.assertTrue(numpy.array_equal(
-                            FiducialMarker.get_dictionary().bytesList,
-                            dictionary.bytesList),
-                        err_msg)
-        self.assertEqual(FiducialMarker.get_dictionary().markerSize,
-                         dictionary.markerSize,
-                         err_msg)
-        self.assertEqual(FiducialMarker.get_dictionary().maxCorrectionBits,
-                         dictionary.maxCorrectionBits,
-                         err_msg)
+        self.assertTrue(FiducialMarker.dictionary_equal(
+                                    dictionary,
+                                    FiducialMarker.get_dictionary()))
 
     def test_get_dictionary_size(self):
         self.assertEqual(FiducialMarker.get_dictionary_size(), 50)
+
+    def test_positive_dictionary_equal(self):
+        dict1 = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
+        dict2 = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
+        self.assertTrue(FiducialMarker.dictionary_equal(dict1, dict2))
+
+    def test_negative_dictionary_equal(self):
+        dict1 = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
+        dict2 = aruco.getPredefinedDictionary(aruco.DICT_4X4_100)
+        self.assertFalse(FiducialMarker.dictionary_equal(dict1, dict2))
 
     def test_positive_draw_marker(self):
         # img_true attained from output in python3 shell of following inputs:
