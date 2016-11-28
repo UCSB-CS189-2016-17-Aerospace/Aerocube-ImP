@@ -11,8 +11,8 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                   [453., 51.],
                                   [454., 417.],
                                   [82.,  417.]]])
-    test_img_path = "./test_files/marker_4X4_sp6_id0.png"
-    test_output_path = "./test_files/output.png"
+    test_img_path = "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/marker_4X4_sp6_id0.png"
+    test_output_path = "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/output.png"
 
     def test_init(self):
         imp = ImageProcessor(self.test_img_path)
