@@ -16,7 +16,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
 
     def test_init(self):
         imp = ImageProcessor(self.test_img_path)
-        self.assertIsNotNone(imp._image_mat)
+        self.assertIsNotNone(imp._img_mat)
 
     def test_positive_load_image(self):
         imp = ImageProcessor(self.test_img_path)
@@ -32,14 +32,11 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # get results of function
         imp = ImageProcessor(self.test_img_path)
         test_corners, test_ids = imp._find_fiducial_markers()
-        # print(corners)
-        # print(test_corners)
-        # print(test_ids)
         # assert hard-coded results equal results of function
         self.assertTrue(np.array_equal(corners, test_corners))
         self.assertTrue(np.array_equal(ids, test_ids))
         # save output image for visual confirmation
-        output_img = aruco.drawDetectedMarkers(imp._image_mat, test_corners, test_ids)
+        output_img = aruco.drawDetectedMarkers(imp._img_mat, test_corners, test_ids)
         cv2.imwrite(self.test_output_path, output_img)
 
     def test_find_aerocube_marker(self):
@@ -48,8 +45,8 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         aerocube_ID = 0
         aerocube_face = AeroCubeFace.ZENITH
         true_markers = np.array([AeroCubeMarker(aerocube_ID,
-                                                   aerocube_face,
-                                                   corners)])
+                                                aerocube_face,
+                                                corners)])
         # get results of function
         imp = ImageProcessor(self.test_img_path)
         aerocube_markers = imp._find_aerocube_markers()
@@ -63,9 +60,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         imp = ImageProcessor(self.test_img_path)
         corners, IDs = imp._find_fiducial_markers()
         img = imp.draw_fiducial_markers(corners, IDs)
-        print(img.shape)
-        print(imp._image_mat.shape)
-        self.assertEqual(img.shape, imp._image_mat.shape)
+        self.assertEqual(img.shape, imp._img_mat.shape)
 
 if __name__ == '__main__':
     unittest.main()

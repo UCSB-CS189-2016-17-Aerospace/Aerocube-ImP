@@ -5,11 +5,11 @@ import os
 
 
 class ImageProcessor:
-    _image_mat = None
+    _img_mat = None
     _DICTIONARY = AeroCubeMarker.get_dictionary()
 
     def __init__(self, file_path):
-        self._image_mat = self._load_image(file_path)
+        self._img_mat = self._load_image(file_path)
 
     def _load_image(self, file_path):
         """
@@ -24,10 +24,10 @@ class ImageProcessor:
 
     def _find_fiducial_markers(self):
         """
-        Identify fiducial markers in _image_mat
+        Identify fiducial markers in _img_mat
         Serves as an abstraction of the aruco method calls
         """
-        (corners, marker_IDs, _) = aruco.detectMarkers(self._image_mat, dictionary=self._DICTIONARY)
+        (corners, marker_IDs, _) = aruco.detectMarkers(self._img_mat, dictionary=self._DICTIONARY)
         return (corners, marker_IDs)
 
     def _find_aerocube_markers(self):
@@ -90,4 +90,4 @@ class ImageProcessor:
         :param marker_IDs: fiducial marker IDs
         :return: img with marker boundaries drawn and markers IDed
         """
-        return aruco.drawDetectedMarkers(self._image_mat, corners, marker_IDs)
+        return aruco.drawDetectedMarkers(self._img_mat, corners, marker_IDs)
