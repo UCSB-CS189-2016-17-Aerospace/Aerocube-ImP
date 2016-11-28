@@ -1,7 +1,7 @@
-from aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 import cv2
 from cv2 import aruco
 import os
+from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 
 
 class ImageProcessor:

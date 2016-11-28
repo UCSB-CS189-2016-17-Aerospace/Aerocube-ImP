@@ -1,7 +1,7 @@
 from cv2 import aruco
 import numpy
 import unittest
-from aerocubeMarker import AeroCubeMarker, AeroCubeFace, \
+from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, \
                            AeroCubeMarkerAttributeError
 # relative imports are still troublesome -- temporary fix
 # http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
