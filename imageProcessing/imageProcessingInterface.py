@@ -83,3 +83,11 @@ class ImageProcessor:
         ...
         """
         pass
+
+    def draw_fiducial_markers(self, corners, marker_IDs):
+        """
+        :param corners: marker corners
+        :param marker_IDs: fiducial marker IDs
+        :return: img with marker boundaries drawn and markers IDed
+        """
+        return aruco.drawDetectedMarkers(self._image_mat, corners, marker_IDs)
