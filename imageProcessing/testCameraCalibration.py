@@ -30,13 +30,13 @@ class TestCameraCalibration(unittest.TestCase):
                         )
 
     def test_draw_charucoboard(self):
-        fp = tempfile.NamedTemporaryFile(dir='/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files', suffix='.jpg')
+        fp = tempfile.NamedTemporaryFile(dir='/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files', suffix='.jpg')
         CameraCalibration.draw_charucoboard((80, 50), fp.name)
         self.assertTrue(os.stat(fp.name).st_size != 0)
         fp.close()
 
     def test_draw_charucoboard_invalid_out_size(self):
-        fp = tempfile.NamedTemporaryFile(dir='/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files', suffix='.jpg')
+        fp = tempfile.NamedTemporaryFile(dir='/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files', suffix='.jpg')
         self.assertRaises(Exception,
                           CameraCalibration.draw_charucoboard,
                           (48, 50),
@@ -45,10 +45,10 @@ class TestCameraCalibration(unittest.TestCase):
 
     def test_get_calibration_matrices(self):
         board = CameraCalibration.get_charucoboard()
-        img_paths = ["/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_0.jpg",
-                     "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_1.jpg",
-                     "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_2.jpg",
-                     "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_3.jpg"]
+        img_paths = ["/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_0.jpg",
+                     "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_1.jpg",
+                     "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_2.jpg",
+                     "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_3.jpg"]
         img_arr = [cv2.imread(img) for img in img_paths]
         retval = CameraCalibration.get_calibration_matrices(board, img_arr)
         self.assertEqual(len(retval), 3)

@@ -3,7 +3,7 @@ import numpy
 # relative imports are still troublesome -- temporary fix
 # http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
 import sys
-sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube-ImP')
+sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube/ImP/')
 from fiducialMarkerModule.fiducialMarker import FiducialMarker, \
                                                 IDOutOfDictionaryBoundError
 

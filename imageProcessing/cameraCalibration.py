@@ -92,9 +92,9 @@ class CameraCalibration():
 if __name__ == '__main__':
     # Get the calibration matrices for ANDREW_IPHONE calibration/configuration
     board = CameraCalibration.get_charucoboard()
-    img_paths = ["/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_0.jpg",
-                 "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_1.jpg",
-                 "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_2.jpg",
-                 "/home/ubuntu/GitHub/Aerocube-ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_3.jpg"]
+    img_paths = ["/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_0.jpg",
+                 "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_1.jpg",
+                 "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_2.jpg",
+                 "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_3.jpg"]
     img_arr = [cv2.imread(img) for img in img_paths]
     print(CameraCalibration.get_calibration_matrices(board, img_arr))
