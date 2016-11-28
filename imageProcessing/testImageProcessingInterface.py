@@ -1,9 +1,9 @@
-from aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
-from imageProcessingInterface import ImageProcessor
 import unittest
 import cv2
 from cv2 import aruco
 import numpy as np
+from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
+from .imageProcessingInterface import ImageProcessor
 
 
 class TestImageProcessingInterfaceMethods(unittest.TestCase):
