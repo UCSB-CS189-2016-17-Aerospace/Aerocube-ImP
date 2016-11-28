@@ -1,7 +1,7 @@
 from cv2 import aruco
-from fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 import numpy
 import unittest
+from .fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 
 
 class TestFiducialMarker(unittest.TestCase):
