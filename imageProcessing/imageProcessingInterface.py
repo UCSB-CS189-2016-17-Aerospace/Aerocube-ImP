@@ -26,8 +26,19 @@ class ImageProcessor:
         """
         Identify fiducial markers in _img_mat
         Serves as an abstraction of the aruco method calls
+        :return corners: an array of 3-D arrays
+            each element is of the form [[[ 884.,  659.],
+                                          [ 812.,  657.],
+                                          [ 811.,  585.],
+                                          [ 885.,  586.]]]
+        :return marker_IDs: an array of integers corresponding to the corners.
+            Note that the Aruco method in reality returns a "column" in array
+            format rather than a simple array, of the form [[id1], [id2], ...],
+            and that this should be simplified before being returned to a "simple"
+            array of the form [id1, id2, ...]
         """
         (corners, marker_IDs, _) = aruco.detectMarkers(self._img_mat, dictionary=self._DICTIONARY)
+        # TODO: "simplify" array shape of marker_IDs
         return (corners, marker_IDs)
 
     def _find_aerocube_markers(self):
@@ -48,6 +59,7 @@ class ImageProcessor:
     def _identify_aerocubes(self, aerocube_markers):
         """
         """
+        markers = self._find_aerocube_markers()
         pass
 
     def _find_attitude(self):
@@ -82,6 +94,7 @@ class ImageProcessor:
         # return data (e.g., aerocube objects)
         ...
         """
+
         pass
 
     def draw_fiducial_markers(self, corners, marker_IDs):
