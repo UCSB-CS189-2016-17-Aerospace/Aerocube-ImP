@@ -102,8 +102,10 @@ class AeroCube():
     _rvec = None
     _tvec = None
 
+    _MARKERS_EMPTY, _MARKERS_HAVE_MANY_AEROCUBES = range(2)
+
     _ERR_MESSAGES = {
-        _MARKERS_EMPTY: "Markers for an AeroCube cannot be empty"
+        _MARKERS_EMPTY: "Markers for an AeroCube cannot be empty",
         _MARKERS_HAVE_MANY_AEROCUBES: "AeroCube Markers do not belong to same AeroCube (IDs are {})"
     }
 

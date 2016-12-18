@@ -74,7 +74,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         imp = ImageProcessor(self.test_img_path)
         scan_results = imp.scan_image(ImageEventSignal.IDENTIFY_AEROCUBES)
         # TODO: force this to fail until _identify_aerocubes is implemented
-        self.assertEqual(False)
+        self.assertTrue(False)
 
     def test_draw_fiducial_markers(self):
         imp = ImageProcessor(self.test_img_path)
