@@ -1,14 +1,8 @@
 from cv2 import aruco
 import numpy
 import unittest
-from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, \
-                           AeroCubeMarkerAttributeError
-# relative imports are still troublesome -- temporary fix
-# http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
-import sys
-sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube/ImP/')
-from fiducialMarkerModule.fiducialMarker import FiducialMarker, \
-                                                IDOutOfDictionaryBoundError
+from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCubeMarkerAttributeError
+from ImP.fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 
 
 class TestAeroCubeMarker(unittest.TestCase):
@@ -76,8 +70,9 @@ class TestAeroCubeMarker(unittest.TestCase):
     def test_error_get_aerocube_marker_IDs(self):
         invalid_IDs = [-1, 8, 9]
         for ID in invalid_IDs:
-            with self.assertRaises(IDOutOfDictionaryBoundError):
-                AeroCubeMarker._get_aerocube_marker_IDs(ID)
+            self.assertRaises(IDOutOfDictionaryBoundError, AeroCubeMarker._get_aerocube_marker_IDs, ID)
+            # with self.assertRaises(IDOutOfDictionaryBoundError):
+            #     AeroCubeMarker._get_aerocube_marker_IDs(ID)
 
     def test_positive_get_aerocube_marker_set(self):
         marker_IDs = AeroCubeMarker._get_aerocube_marker_IDs(1)
@@ -105,9 +100,10 @@ class TestAeroCubeMarker(unittest.TestCase):
         test_tuple = AeroCubeMarker.identify_marker_ID(11)
         self.assertEqual(aerocube_tuple, test_tuple)
 
-    def test_error_identify_maker(self):
-        with self.assertRaises(IDOutOfDictionaryBoundError):
-            AeroCubeMarker.identify_marker_ID(-1)
+    def test_error_identify_marker(self):
+        self.assertRaises(IDOutOfDictionaryBoundError, AeroCubeMarker.identify_marker_ID, -1)
+        # with self.assertRaises(IDOutOfDictionaryBoundError):
+        #     AeroCubeMarker.identify_marker_ID(-1)
 
 if __name__ == '__main__':
     unittest.main()
