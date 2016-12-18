@@ -102,23 +102,38 @@ class AeroCube():
     _rvec = None
     _tvec = None
 
-    _MARKERS_EMPTY, _MARKERS_HAVE_MANY_AEROCUBES = range(2)
+    # Give _ERR_MESSAGES keys unique, but otherwise arbitrary, values
+    _MARKERS_EMPTY, _MARKERS_HAVE_MANY_AEROCUBES, _DUPLICATE_MARKERS = range(3)
 
     _ERR_MESSAGES = {
-        _MARKERS_EMPTY: "Markers for an AeroCube cannot be empty",
+        _MARKERS_EMPTY:               "Markers for an AeroCube cannot be empty",
         _MARKERS_HAVE_MANY_AEROCUBES: "AeroCube Markers do not belong to same AeroCube (IDs are {})"
     }
 
     def __init__(self, markers):
+        self.raise_if_markers_invalid(markers)
         self._markers = markers
 
+    @property
+    def markers(self):
+        return self._markers
+
     @staticmethod
-    def check_if_markers_valid(markers):
+    def raise_if_markers_invalid(markers):
+        """
+        Tests if the given array of AeroCube Markers are a valid set to be input as
+        constructor arguments for an AeroCube.
+        If markers are invalid, raise an exception.
+        Checks for the following condition:
+            1. Markers is non-empty (an AeroCube object should not be created if there are no markers)
+            2. Markers have identical AeroCube IDs
+        :param markers: array of AeroCube Markers to be tested
+        """
         if not markers:
-            raise AttributeError(AeroCube._ERR_MESSAGES[_MARKERS_EMPTY])
+            raise AttributeError(AeroCube._ERR_MESSAGES[AeroCube._MARKERS_EMPTY])
         if not all(marker.aerocube_ID == markers[0].aerocube_ID for marker in markers):
             aerocube_IDs = set([marker.aerocube_ID for marker in markers])
-            raise AttributeError(AeroCube._ERR_MESSAGES[_MARKERS_HAVE_MANY_AEROCUBES].format(aerocube_IDs))
+            raise AttributeError(AeroCube._ERR_MESSAGES[AeroCube._MARKERS_HAVE_MANY_AEROCUBES].format(aerocube_IDs))
 
 
 class AeroCubeMarkerAttributeError(Exception):
