@@ -64,7 +64,6 @@ class ImageProcessor:
         :return: array of AeroCube objects
         """
         markers = self._find_aerocube_markers()
-        print("THIS IS IDENTIFY")
         pass
 
     def _find_attitude(self):
