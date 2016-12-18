@@ -6,6 +6,7 @@ import os
 from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 from .imageProcessingInterface import ImageProcessor
 from .settings import ImageProcessingSettings
+from eventClass.aeroCubeSignal import ImageEventSignal
 
 
 class TestImageProcessingInterfaceMethods(unittest.TestCase):
@@ -37,8 +38,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         test_corners, test_ids = imp._find_fiducial_markers()
         # assert hard-coded results equal results of function
         self.assertTrue(np.array_equal(corners, test_corners))
-        self.assertSequenceEqual(ids, test_ids)
-        self.assertNotEqual(type(test_ids).__module__, np.__name__)
+        self.assertTrue(np.array_equal(ids, test_ids))
         # save output image for visual confirmation
         output_img = aruco.drawDetectedMarkers(imp._img_mat, test_corners, test_ids)
         cv2.imwrite(self.test_output_path, output_img)
@@ -69,6 +69,12 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
 
     def test_identify_multiple_aerocubes(self):
         self.assertTrue(False)
+
+    def test_scan_image(self):
+        imp = ImageProcessor(self.test_img_path)
+        scan_results = imp.scan_image(ImageEventSignal.IDENTIFY_AEROCUBES)
+        # TODO: force this to fail until _identify_aerocubes is implemented
+        self.assertEqual(False)
 
     def test_draw_fiducial_markers(self):
         imp = ImageProcessor(self.test_img_path)

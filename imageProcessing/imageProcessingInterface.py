@@ -36,20 +36,17 @@ class ImageProcessor:
                                           [ 811.,  585.],
                                           [ 885.,  586.]]]
         :return marker_IDs: an array of integers corresponding to the corners.
-            Note that the Aruco method in reality returns a "column" in array
-            format rather than a simple array, of the form [[id1], [id2], ...],
-            and that this should be simplified before being returned to a "simple"
-            array of the form [id1, id2, ...]
+            Note that the Aruco method returns a 1D numpy array of the form [[id1], [id2], ...],
+            and that elements must therefore be accessed as arr[idx][0], NOT arr[idx]
         """
         (corners, marker_IDs, _) = aruco.detectMarkers(self._img_mat, dictionary=self._DICTIONARY)
-        # TODO: "simplify" array shape of marker_IDs
-        # return (corners, marker_IDs.tolist())
         return (corners, marker_IDs)
 
     def _find_aerocube_markers(self):
         """
         Calls a private function to find all fiducial markers, then constructs
         AeroCubeMarker objects from those results
+        :return: array of AeroCube marker objects
         """
         corners, marker_IDs = self._find_fiducial_markers()
         aerocube_IDs, aerocube_faces = zip(*[AeroCubeMarker.identify_marker_ID(ID) for ID in marker_IDs])
@@ -67,6 +64,7 @@ class ImageProcessor:
         :return: array of AeroCube objects
         """
         markers = self._find_aerocube_markers()
+        print("THIS IS IDENTIFY")
         pass
 
     def _find_attitude(self):
