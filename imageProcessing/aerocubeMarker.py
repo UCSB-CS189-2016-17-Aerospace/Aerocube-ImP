@@ -102,13 +102,21 @@ class AeroCube():
     _rvec = None
     _tvec = None
 
+    _ERR_MESSAGES = {
+        _MARKERS_EMPTY: "Markers for an AeroCube cannot be empty"
+        _MARKERS_HAVE_MANY_AEROCUBES: "AeroCube Markers do not belong to same AeroCube (IDs are {})"
+    }
+
     def __init__(self, markers):
         self._markers = markers
 
     @staticmethod
     def check_if_markers_valid(markers):
+        if not markers:
+            raise AttributeError(AeroCube._ERR_MESSAGES[_MARKERS_EMPTY])
         if not all(marker.aerocube_ID == markers[0].aerocube_ID for marker in markers):
-            raise AttributeError("AeroCube Markers do not belong to same AeroCube")
+            aerocube_IDs = set([marker.aerocube_ID for marker in markers])
+            raise AttributeError(AeroCube._ERR_MESSAGES[_MARKERS_HAVE_MANY_AEROCUBES].format(aerocube_IDs))
 
 
 class AeroCubeMarkerAttributeError(Exception):
