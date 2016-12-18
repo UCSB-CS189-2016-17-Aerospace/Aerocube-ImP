@@ -97,7 +97,7 @@ class AeroCubeFace(Enum):
 
 class AeroCube():
     NUM_SIDES = 6
-    _id = None
+    _ID = None
     _markers = None
     _rvec = None
     _tvec = None
