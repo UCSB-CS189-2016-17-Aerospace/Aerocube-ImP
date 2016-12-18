@@ -13,9 +13,8 @@ class ImageProcessor:
 
     def _load_image(self, file_path):
         """
-        :param file_path: Absolute path, from init argument,
-        to load the image as a matrix into a variable
-        :return:
+        :param file_path: path used to find the image to be processed
+        :return: the image specified as a matrix
         """
         image = cv2.imread(file_path)
         if image is None:
@@ -39,6 +38,7 @@ class ImageProcessor:
         """
         (corners, marker_IDs, _) = aruco.detectMarkers(self._img_mat, dictionary=self._DICTIONARY)
         # TODO: "simplify" array shape of marker_IDs
+        # return (corners, marker_IDs.tolist())
         return (corners, marker_IDs)
 
     def _find_aerocube_markers(self):
