@@ -97,9 +97,18 @@ class AeroCubeFace(Enum):
 
 class AeroCube():
     NUM_SIDES = 6
+    _id = None
     _markers = None
     _rvec = None
     _tvec = None
+
+    def __init__(self, markers):
+        self._markers = markers
+
+    @staticmethod
+    def check_if_markers_valid(markers):
+        if not all(marker.aerocube_ID == markers[0].aerocube_ID for marker in markers):
+            raise AttributeError("AeroCube Markers do not belong to same AeroCube")
 
 
 class AeroCubeMarkerAttributeError(Exception):

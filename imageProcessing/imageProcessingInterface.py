@@ -2,14 +2,19 @@ import cv2
 from cv2 import aruco
 import os
 from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
+from eventClass.aeroCubeSignal import ImageEventSignal
 
 
 class ImageProcessor:
     _img_mat = None
     _DICTIONARY = AeroCubeMarker.get_dictionary()
+    _dispatcher = None
 
     def __init__(self, file_path):
         self._img_mat = self._load_image(file_path)
+        self._dispatcher = {
+            ImageEventSignal.IDENTIFY_AEROCUBES: self._identify_aerocubes
+        }
 
     def _load_image(self, file_path):
         """
@@ -56,8 +61,10 @@ class ImageProcessor:
 
     # TODO: given an array of AeroCubeMarker objects, return an array of
     # AeroCube objects with their respective AeroCubeMarker objects
-    def _identify_aerocubes(self, aerocube_markers):
+    def _identify_aerocubes(self):
         """
+        Internal function called when ImP receives a ImageEventSignal.IDENTIFY_AEROCUBES signal.
+        :return: array of AeroCube objects
         """
         markers = self._find_aerocube_markers()
         pass
@@ -71,34 +78,19 @@ class ImageProcessor:
     def scan_image(self, img_signal):
         """
         Describes the higher-level process of processing an image to
-        (1) identify any AeroCubes, and (2) determine their relative attitude and position
-        :return:
+            (1) identify any AeroCubes, and
+            (2) determine their relative attitude and position
+        Takes the image signal param and passes it to the dispatcher, which calls a method depending on the signal given
+        :param img_signal: a valid signal (from ImageEventSignal) that indicates the operation requested
+        :return: results from the function called within the dispatcher
         """
-        """
-        1. {
-        imp = ImageProcessor(img_path)
-        imp.scan_image(img_signal)
-        } OR
-        2. {
-        scan_image(img_path, img_signal)
-        }
-
-
-        # assume that image is loaded from _load_image from __init__
-        (corner_pts, marker_IDs, _) = imp._find_fiducial_markers(...)
-        # identify aerocubes
-        _find_aerocube_markers(...)
-        _identify_aerocubes(...)
-        # ask each aerocube to identify pose
-        ...
-        # return data (e.g., aerocube objects)
-        ...
-        """
-
-        pass
+        if img_signal not in ImageEventSignal:
+            raise TypeError("Invalid signal for ImP")
+        return self._dispatcher[img_signal]()
 
     def draw_fiducial_markers(self, corners, marker_IDs):
         """
+        Returns an image matrix with the given corners and marker_IDs drawn onto the image
         :param corners: marker corners
         :param marker_IDs: fiducial marker IDs
         :return: img with marker boundaries drawn and markers IDed

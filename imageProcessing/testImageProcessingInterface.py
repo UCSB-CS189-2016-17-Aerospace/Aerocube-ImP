@@ -45,9 +45,9 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
 
     def test_find_aerocube_marker(self):
         # hard code results of operation
-        corners = self.VALID_CORNER_MAT
         aerocube_ID = 0
         aerocube_face = AeroCubeFace.ZENITH
+        corners = self.VALID_CORNER_MAT
         true_markers = np.array([AeroCubeMarker(aerocube_ID,
                                                 aerocube_face,
                                                 corners)])
@@ -57,7 +57,17 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # assert equality of arrays
         self.assertTrue(np.array_equal(true_markers, aerocube_markers))
 
+    def test_find_multiple_aerocube_markers(self):
+        self.assertTrue(False)
+
     def test_identify_aerocubes(self):
+        aerocube_ID = 0
+        aerocube_face = AeroCubeFace.ZENITH
+        corners = self.VALID_CORNER_MAT
+        marker_list = [AeroCubeMarker(aerocube_ID, aerocube_face, corners)]
+        aerocube_list = AeroCube(marker_list)
+
+    def test_identify_multiple_aerocubes(self):
         self.assertTrue(False)
 
     def test_draw_fiducial_markers(self):
