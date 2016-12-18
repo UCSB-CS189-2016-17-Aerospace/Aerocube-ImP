@@ -1,11 +1,6 @@
 from enum import Enum
 import numpy
-# relative imports are still troublesome -- temporary fix
-# http://stackoverflow.com/questions/72852/how-to-do-relative-imports-in-python
-import sys
-sys.path.insert(1, '/home/ubuntu/GitHub/Aerocube/ImP/')
-from fiducialMarkerModule.fiducialMarker import FiducialMarker, \
-                                                IDOutOfDictionaryBoundError
+from ImP.fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 
 
 class AeroCubeMarker(FiducialMarker):
@@ -102,9 +97,18 @@ class AeroCubeFace(Enum):
 
 class AeroCube():
     NUM_SIDES = 6
+    _ID = None
     _markers = None
     _rvec = None
     _tvec = None
+
+    def __init__(self, markers):
+        self._markers = markers
+
+    @staticmethod
+    def check_if_markers_valid(markers):
+        if not all(marker.aerocube_ID == markers[0].aerocube_ID for marker in markers):
+            raise AttributeError("AeroCube Markers do not belong to same AeroCube")
 
 
 class AeroCubeMarkerAttributeError(Exception):

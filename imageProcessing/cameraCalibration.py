@@ -1,8 +1,10 @@
 import cv2
 from cv2 import aruco
 import numpy as np
+import os
 from collections import namedtuple
 from .aerocubeMarker import AeroCubeMarker
+from .settings import ImageProcessingSettings
 
 
 class CameraCalibration():
@@ -69,7 +71,6 @@ class CameraCalibration():
         all_charuco_corners = []
         all_charuco_IDs = []
         img_size = None
-
         for img in img_arr:
             # Convert to grayscale before performing operations
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -78,23 +79,26 @@ class CameraCalibration():
                                                                 corners,
                                                                 IDs,
                                                                 gray,
-                                                                board
-                                              )
+                                                                board)
             all_charuco_corners.append(charuco_corners)
             all_charuco_IDs.append(charuco_IDs)
             # Get matrix shape of grayscale image
             img_size = gray.shape
-
-        ret_val, camera_matrix, dist_coeffs, _, _ = aruco.calibrateCameraCharuco(all_charuco_corners, all_charuco_IDs, board, img_size, None, None)
-
+        ret_val, camera_matrix, dist_coeffs, _, _ = aruco.calibrateCameraCharuco(all_charuco_corners,
+                                                                                 all_charuco_IDs,
+                                                                                 board,
+                                                                                 img_size,
+                                                                                 None,
+                                                                                 None)
         return ret_val, camera_matrix, dist_coeffs
 
 if __name__ == '__main__':
     # Get the calibration matrices for ANDREW_IPHONE calibration/configuration
     board = CameraCalibration.get_charucoboard()
-    img_paths = ["/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_0.jpg",
-                 "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_1.jpg",
-                 "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_2.jpg",
-                 "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_3.jpg"]
+    test_files_path = ImageProcessingSettings.get_test_files_path()
+    img_paths = [os.path.join(test_files_path, "andrew_iphone_calibration_photo_0.jpg"),
+                 os.path.join(test_files_path, "andrew_iphone_calibration_photo_1.jpg"),
+                 os.path.join(test_files_path, "andrew_iphone_calibration_photo_2.jpg"),
+                 os.path.join(test_files_path, "andrew_iphone_calibration_photo_3.jpg")]
     img_arr = [cv2.imread(img) for img in img_paths]
     print(CameraCalibration.get_calibration_matrices(board, img_arr))

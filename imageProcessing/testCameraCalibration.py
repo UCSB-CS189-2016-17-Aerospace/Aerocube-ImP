@@ -5,9 +5,13 @@ import cv2
 import tempfile
 from .aerocubeMarker import AeroCubeMarker
 from .cameraCalibration import CameraCalibration
+from .settings import ImageProcessingSettings
 
 
 class TestCameraCalibration(unittest.TestCase):
+    _test_files_path = ImageProcessingSettings.get_test_files_path()
+    _img_suffix = '.jpg'
+
     def test_predefined_calibration_andrew_iphone(self):
         cal = CameraCalibration.PredefinedCalibration.ANDREW_IPHONE
         self.assertEqual(cal._fields,
@@ -30,13 +34,14 @@ class TestCameraCalibration(unittest.TestCase):
                         )
 
     def test_draw_charucoboard(self):
-        fp = tempfile.NamedTemporaryFile(dir='/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files', suffix='.jpg')
+        fp = tempfile.NamedTemporaryFile(dir=self._test_files_path, suffix=self._img_suffix)
+        print(fp.name)
         CameraCalibration.draw_charucoboard((80, 50), fp.name)
         self.assertTrue(os.stat(fp.name).st_size != 0)
         fp.close()
 
     def test_draw_charucoboard_invalid_out_size(self):
-        fp = tempfile.NamedTemporaryFile(dir='/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files', suffix='.jpg')
+        fp = tempfile.NamedTemporaryFile(dir=self._test_files_path, suffix=self._img_suffix)
         self.assertRaises(Exception,
                           CameraCalibration.draw_charucoboard,
                           (48, 50),
@@ -45,10 +50,10 @@ class TestCameraCalibration(unittest.TestCase):
 
     def test_get_calibration_matrices(self):
         board = CameraCalibration.get_charucoboard()
-        img_paths = ["/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_0.jpg",
-                     "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_1.jpg",
-                     "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_2.jpg",
-                     "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/andrew_iphone_calibration_photo_3.jpg"]
+        img_paths = [os.path.join(self._test_files_path, "andrew_iphone_calibration_photo_0.jpg"),
+                     os.path.join(self._test_files_path, "andrew_iphone_calibration_photo_1.jpg"),
+                     os.path.join(self._test_files_path, "andrew_iphone_calibration_photo_2.jpg"),
+                     os.path.join(self._test_files_path, "andrew_iphone_calibration_photo_3.jpg")]
         img_arr = [cv2.imread(img) for img in img_paths]
         retval = CameraCalibration.get_calibration_matrices(board, img_arr)
         self.assertEqual(len(retval), 3)

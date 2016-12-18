@@ -2,8 +2,11 @@ import unittest
 import cv2
 from cv2 import aruco
 import numpy as np
+import os
 from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 from .imageProcessingInterface import ImageProcessor
+from .settings import ImageProcessingSettings
+from eventClass.aeroCubeSignal import ImageEventSignal
 
 
 class TestImageProcessingInterfaceMethods(unittest.TestCase):
@@ -11,8 +14,9 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                   [453., 51.],
                                   [454., 417.],
                                   [82.,  417.]]])
-    test_img_path = "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/marker_4X4_sp6_id0.png"
-    test_output_path = "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/output.png"
+    test_files_path = ImageProcessingSettings.get_test_files_path()
+    test_img_path = os.path.join(test_files_path, 'marker_4X4_sp6_id0.png')
+    test_output_path = os.path.join(test_files_path, 'output.png')
 
     def test_init(self):
         imp = ImageProcessor(self.test_img_path)
@@ -28,7 +32,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
     def test_find_fiducial_marker(self):
         # hard code results of operation
         corners = [self.VALID_CORNER_MAT]
-        ids = np.array([[0]])
+        ids = [0]
         # get results of function
         imp = ImageProcessor(self.test_img_path)
         test_corners, test_ids = imp._find_fiducial_markers()
@@ -41,9 +45,9 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
 
     def test_find_aerocube_marker(self):
         # hard code results of operation
-        corners = self.VALID_CORNER_MAT
         aerocube_ID = 0
         aerocube_face = AeroCubeFace.ZENITH
+        corners = self.VALID_CORNER_MAT
         true_markers = np.array([AeroCubeMarker(aerocube_ID,
                                                 aerocube_face,
                                                 corners)])
@@ -53,8 +57,24 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # assert equality of arrays
         self.assertTrue(np.array_equal(true_markers, aerocube_markers))
 
-    def test_identify_aerocubes(self):
+    def test_find_multiple_aerocube_markers(self):
         self.assertTrue(False)
+
+    def test_identify_aerocubes(self):
+        aerocube_ID = 0
+        aerocube_face = AeroCubeFace.ZENITH
+        corners = self.VALID_CORNER_MAT
+        marker_list = [AeroCubeMarker(aerocube_ID, aerocube_face, corners)]
+        aerocube_list = AeroCube(marker_list)
+
+    def test_identify_multiple_aerocubes(self):
+        self.assertTrue(False)
+
+    def test_scan_image(self):
+        imp = ImageProcessor(self.test_img_path)
+        scan_results = imp.scan_image(ImageEventSignal.IDENTIFY_AEROCUBES)
+        # TODO: force this to fail until _identify_aerocubes is implemented
+        self.assertEqual(False)
 
     def test_draw_fiducial_markers(self):
         imp = ImageProcessor(self.test_img_path)
