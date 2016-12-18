@@ -5,18 +5,16 @@ import numpy as np
 import os
 from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
 from .imageProcessingInterface import ImageProcessor
+from .settings import ImageProcessingSettings
 
 
 class TestImageProcessingInterfaceMethods(unittest.TestCase):
-
     VALID_CORNER_MAT = np.array([[[82.,  51.],
                                   [453., 51.],
                                   [454., 417.],
                                   [82.,  417.]]])
-    test_files_path = os.path.join(os.path.dirname(__file__), 'test_files')
-    # test_img_path = "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/marker_4X4_sp6_id0.png"
+    test_files_path = ImageProcessingSettings.get_test_files_path()
     test_img_path = os.path.join(test_files_path, 'marker_4X4_sp6_id0.png')
-    # test_output_path = "/home/ubuntu/GitHub/Aerocube/ImP/imageProcessing/test_files/output.png"
     test_output_path = os.path.join(test_files_path, 'output.png')
 
     def test_init(self):
