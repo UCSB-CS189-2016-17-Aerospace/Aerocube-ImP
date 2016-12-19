@@ -67,6 +67,8 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         corners = self.VALID_CORNER_MAT
         marker_list = [AeroCubeMarker(aerocube_ID, aerocube_face, corners)]
         aerocube_list = AeroCube(marker_list)
+        imp = ImageProcessor(self.test_img_path)
+        self.assertEqual(imp._identify_aerocubes(), aerocube_list)
 
     def test_identify_multiple_aerocubes(self):
         self.assertTrue(False)

@@ -65,8 +65,10 @@ class ImageProcessor:
         :return: array of AeroCube objects
         """
         markers = self._find_aerocube_markers()
-        # itertools.groupby()
-        pass
+        aerocubes = list()
+        for aerocube, aerocube_markers in itertools.groupby(markers, lambda m: m.aerocube_ID):
+            aerocubes.append(AeroCube(aerocube_markers))
+        return aerocubes
 
     def _find_attitude(self):
         pass
