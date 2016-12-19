@@ -1,3 +1,4 @@
+import itertools
 import cv2
 from cv2 import aruco
 import os
@@ -64,6 +65,7 @@ class ImageProcessor:
         :return: array of AeroCube objects
         """
         markers = self._find_aerocube_markers()
+        # itertools.groupby()
         pass
 
     def _find_attitude(self):
@@ -72,18 +74,28 @@ class ImageProcessor:
     def _find_position(self):
         pass
 
-    def scan_image(self, img_signal):
+    def scan_image(self, img_signal, op_params=None):
         """
         Describes the higher-level process of processing an image to
             (1) identify any AeroCubes, and
             (2) determine their relative attitude and position
         Takes the image signal param and passes it to the dispatcher, which calls a method depending on the signal given
         :param img_signal: a valid signal (from ImageEventSignal) that indicates the operation requested
+        :param op_params: optional parameter where additional operation parameters can be given
         :return: results from the function called within the dispatcher
         """
         if img_signal not in ImageEventSignal:
             raise TypeError("Invalid signal for ImP")
-        return self._dispatcher[img_signal]()
+        try:
+            return self._dispatcher[img_signal](op_params)
+        except KeyError:
+            # img_signal is not defined for the dispatcher
+            # TODO: how to handle?
+            pass
+        except Exception:
+            # all other exceptions
+            # TODO: how to handle?
+            pass
 
     def draw_fiducial_markers(self, corners, marker_IDs):
         """

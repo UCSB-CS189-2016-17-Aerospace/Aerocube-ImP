@@ -32,13 +32,14 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
     def test_find_fiducial_marker(self):
         # hard code results of operation
         corners = [self.VALID_CORNER_MAT]
-        ids = [0]
+        ids = np.array([[0]])
         # get results of function
         imp = ImageProcessor(self.test_img_path)
         test_corners, test_ids = imp._find_fiducial_markers()
         # assert hard-coded results equal results of function
         self.assertTrue(np.array_equal(corners, test_corners))
         self.assertTrue(np.array_equal(ids, test_ids))
+        self.assertEqual(type(test_ids).__module__, np.__name__)
         # save output image for visual confirmation
         output_img = aruco.drawDetectedMarkers(imp._img_mat, test_corners, test_ids)
         cv2.imwrite(self.test_output_path, output_img)
