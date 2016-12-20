@@ -17,6 +17,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
     test_files_path = ImageProcessingSettings.get_test_files_path()
     test_img_path = os.path.join(test_files_path, 'marker_4X4_sp6_id0.png')
     test_output_path = os.path.join(test_files_path, 'output.png')
+    test_img_mult_aerocubes_path = os.path.join(test_files_path, '0_ZENITH_1_ZENITH.jpg')
 
     def test_init(self):
         imp = ImageProcessor(self.test_img_path)
@@ -58,6 +59,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # assert equality of arrays
         self.assertTrue(np.array_equal(true_markers, aerocube_markers))
 
+    @unittest.skip("Not implemented")
     def test_find_multiple_aerocube_markers(self):
         self.assertTrue(False)
 
@@ -70,6 +72,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         imp = ImageProcessor(self.test_img_path)
         self.assertEqual(imp._identify_aerocubes(), aerocube_list)
 
+    @unittest.skip("Not implemented")
     def test_identify_multiple_aerocubes(self):
         self.assertTrue(False)
 

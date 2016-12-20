@@ -156,7 +156,6 @@ class AeroCube():
             2. Markers have identical AeroCube IDs
         :param markers: array of AeroCube Markers to be tested
         """
-        print("Markers is: " + str(markers))
         if not markers:
             raise AttributeError(AeroCube._ERR_MESSAGES[AeroCube._MARKERS_EMPTY])
         if not all(marker.aerocube_ID == markers[0].aerocube_ID for marker in markers):
