@@ -22,7 +22,14 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                        IDs')
     test_img_path = os.path.join(test_files_path, 'marker_4X4_sp6_id0.png')
     test_output_path = os.path.join(test_files_path, 'output.png')
-    # struct for image 2_ZENITH_0_BACK.jpg
+    # struct for image 'marker_4X4_sp6_id0.png'
+    TEST_SINGLE_MARKER = TestFile(img_path=os.path.join(test_files_path, 'marker_4X4_sp6_id0.png'),
+                                  corners=np.array([[[82.,  51.],
+                                                     [453., 51.],
+                                                     [454., 417.],
+                                                     [82.,  417.]]]),
+                                  IDs=np.array([[0]]))
+    # struct for image '2_ZENITH_0_BACK.jpg'
     TEST_MULT_AEROCUBES = TestFile(img_path=os.path.join(test_files_path, '2_ZENITH_0_BACK.jpg'),
                                    corners=[np.array([[[371.,  446.],
                                                        [396.,  505.],
@@ -33,6 +40,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                                        [779.,  380.],
                                                        [741.,  333.]]])],
                                    IDs=np.array([[12], [4]]))
+
 
     def test_init(self):
         imp = ImageProcessor(self.test_img_path)
