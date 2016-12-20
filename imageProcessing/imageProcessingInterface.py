@@ -17,8 +17,11 @@ class ImageProcessor:
             ImageEventSignal.IDENTIFY_AEROCUBES: self._identify_aerocubes
         }
 
-    def _load_image(self, file_path):
+    @staticmethod
+    def _load_image(file_path):
         """
+        Method used to load an image given the file path (static since it
+            does not rely on state).
         :param file_path: path used to find the image to be processed
         :return: the image specified as a matrix
         """
