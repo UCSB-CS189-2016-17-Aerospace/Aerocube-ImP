@@ -47,6 +47,11 @@ class TestAeroCube(unittest.TestCase):
         self.assertIsNotNone(aerocube)
         self.assertEqual(aerocube.markers, self.VALID_MARKERS)
 
+    def test_eq(self):
+        aerocube_1 = AeroCube(self.VALID_MARKERS)
+        aerocube_2 = AeroCube(self.VALID_MARKERS)
+        self.assertEqual(aerocube_1, aerocube_2)
+
     def test_raise_if_markers_invalid(self):
         try:
             AeroCube.raise_if_markers_invalid(self.VALID_MARKERS)

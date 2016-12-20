@@ -67,7 +67,7 @@ class ImageProcessor:
         markers = self._find_aerocube_markers()
         aerocubes = list()
         for aerocube, aerocube_markers in itertools.groupby(markers, lambda m: m.aerocube_ID):
-            aerocubes.append(AeroCube(aerocube_markers))
+            aerocubes.append(AeroCube(list(aerocube_markers)))
         return aerocubes
 
     def _find_attitude(self):
