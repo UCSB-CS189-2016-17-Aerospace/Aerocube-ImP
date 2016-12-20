@@ -32,7 +32,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                                        [842.,  359.],
                                                        [779.,  380.],
                                                        [741.,  333.]]])],
-                                   IDs=np.array([12, 4]))
+                                   IDs=np.array([[12], [4]]))
 
     def test_init(self):
         imp = ImageProcessor(self.test_img_path)
@@ -86,11 +86,15 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # assert equality of arrays
         self.assertTrue(np.array_equal(true_markers, aerocube_markers))
 
-    @unittest.skip("Not implemented")
     def test_find_aerocube_markers_multiple(self):
-        self.assertTrue(False)
-        imp = ImageProcessor(self.test_img_mult_aerocubes_path)
-        aerocube_markers = imp._find_aerocube_markers()
+        # get hard-coded results
+        aerocube_markers = [AeroCubeMarker(2, AeroCubeFace.ZENITH, self.TEST_MULT_AEROCUBES.corners[0]),
+                            AeroCubeMarker(0,   AeroCubeFace.BACK, self.TEST_MULT_AEROCUBES.corners[1])]
+        # get results from ImP
+        imp = ImageProcessor(self.TEST_MULT_AEROCUBES.img_path)
+        test_aerocube_markers = imp._find_aerocube_markers()
+        # assert equality
+        self.assertTrue(np.array_equal(aerocube_markers, test_aerocube_markers))
 
     @unittest.skip("Not implemented")
     def test_find_aerocube_markers_none(self):
