@@ -49,19 +49,21 @@ class ImageProcessor:
     def _find_aerocube_markers(self):
         """
         Calls a private function to find all fiducial markers, then constructs
-        AeroCubeMarker objects from those results
-        :return: array of AeroCube marker objects
+        AeroCubeMarker objects from those results. If there are no markers found,
+        return an empty array.
+        :return: array of AeroCubeMarker objects; empty if none found
         """
         corners, marker_IDs = self._find_fiducial_markers()
-        aerocube_IDs, aerocube_faces = zip(*[AeroCubeMarker.identify_marker_ID(ID) for ID in marker_IDs])
-        aerocube_markers = list()
-        for ID, face, marker_corners in zip(aerocube_IDs, aerocube_faces, corners):
-            # because ID is in the form of [id_int], get the element
-            aerocube_markers.append(AeroCubeMarker(ID[0], face, marker_corners))
-        return aerocube_markers
+        if marker_IDs is None:
+            return []
+        else:
+            aerocube_IDs, aerocube_faces = zip(*[AeroCubeMarker.identify_marker_ID(ID) for ID in marker_IDs])
+            aerocube_markers = list()
+            for ID, face, marker_corners in zip(aerocube_IDs, aerocube_faces, corners):
+                # because ID is in the form of [id_int], get the element
+                aerocube_markers.append(AeroCubeMarker(ID[0], face, marker_corners))
+            return aerocube_markers
 
-    # TODO: given an array of AeroCubeMarker objects, return an array of
-    # AeroCube objects with their respective AeroCubeMarker objects
     def _identify_aerocubes(self):
         """
         Internal function called when ImP receives a ImageEventSignal.IDENTIFY_AEROCUBES signal.

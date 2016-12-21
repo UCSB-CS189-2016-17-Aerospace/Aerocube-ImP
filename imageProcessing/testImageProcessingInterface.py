@@ -24,6 +24,10 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
                                                       [454., 417.],
                                                       [82.,  417.]]])],
                                   IDs=np.array([[0]]))
+    # struct for image 'no_markers.jpg'
+    TEST_NO_MARKER = TestFile(img_path=os.path.join(test_files_path, 'no_markers.jpg'),
+                              corners=[],
+                              IDs=None)
     # struct for image '2_ZENITH_0_BACK.jpg'
     TEST_MULT_AEROCUBES = TestFile(img_path=os.path.join(test_files_path, '2_ZENITH_0_BACK.jpg'),
                                    corners=[np.array([[[371.,  446.],
@@ -70,9 +74,11 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         self.assertTrue(np.array_equal(self.TEST_MULT_AEROCUBES.corners, test_corners))
         self.assertTrue(np.array_equal(self.TEST_MULT_AEROCUBES.IDs, test_ids))
 
-    @unittest.skip("Not implemented")
     def test_find_fiducial_marker_none(self):
-        self.fail()
+        imp = ImageProcessor(self.TEST_NO_MARKER.img_path)
+        test_corners, test_ids = imp._find_fiducial_markers()
+        self.assertTrue(np.array_equal(self.TEST_NO_MARKER.corners, test_corners))
+        self.assertTrue(np.array_equal(self.TEST_NO_MARKER.IDs, test_ids))
 
     def test_find_aerocube_marker(self):
         # hard code results of operation
@@ -98,9 +104,13 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         # assert equality
         self.assertTrue(np.array_equal(aerocube_markers, test_aerocube_markers))
 
-    @unittest.skip("Not implemented")
     def test_find_aerocube_markers_none(self):
-        self.fail()
+        # get hard-coded results
+        aerocube_markers = []
+        # get results from ImP
+        imp = ImageProcessor(self.TEST_NO_MARKER.img_path)
+        test_markers = imp._find_aerocube_markers()
+        self.assertTrue(np.array_equal(aerocube_markers, test_markers))
 
     def test_identify_aerocubes(self):
         aerocube_ID = 0
@@ -111,7 +121,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         imp = ImageProcessor(self.TEST_SINGLE_MARKER.img_path)
         self.assertEqual(imp._identify_aerocubes(), aerocube_list)
 
-    @unittest.skip("Not implemented")
+    @unittest.expectedFailure
     def test_identify_multiple_aerocubes(self):
         self.fail()
 
