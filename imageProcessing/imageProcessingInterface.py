@@ -39,9 +39,11 @@ class ImageProcessor:
                                           [ 812.,  657.],
                                           [ 811.,  585.],
                                           [ 885.,  586.]]]
+            If no markers found, corners == []
         :return marker_IDs: an array of integers corresponding to the corners.
             Note that the Aruco method returns a 1D numpy array of the form [[id1], [id2], ...],
             and that elements must therefore be accessed as arr[idx][0], NOT arr[idx]
+            If no markers found, marker_IDs == None
         """
         (corners, marker_IDs, _) = aruco.detectMarkers(self._img_mat, dictionary=self._DICTIONARY)
         return (corners, marker_IDs)
@@ -53,21 +55,21 @@ class ImageProcessor:
         return an empty array.
         :return: array of AeroCubeMarker objects; empty if none found
         """
-        corners, marker_IDs = self._find_fiducial_markers()
+        marker_corners, marker_IDs = self._find_fiducial_markers()
         if marker_IDs is None:
             return []
         else:
             aerocube_IDs, aerocube_faces = zip(*[AeroCubeMarker.identify_marker_ID(ID) for ID in marker_IDs])
             aerocube_markers = list()
-            for ID, face, marker_corners in zip(aerocube_IDs, aerocube_faces, corners):
+            for ID, face, corners in zip(aerocube_IDs, aerocube_faces, marker_corners):
                 # because ID is in the form of [id_int], get the element
-                aerocube_markers.append(AeroCubeMarker(ID[0], face, marker_corners))
+                aerocube_markers.append(AeroCubeMarker(ID[0], face, corners))
             return aerocube_markers
 
     def _identify_aerocubes(self):
         """
         Internal function called when ImP receives a ImageEventSignal.IDENTIFY_AEROCUBES signal.
-        :return: array of AeroCube objects
+        :return: array of AeroCube objects; [] if no AeroCubes found
         """
         markers = self._find_aerocube_markers()
         aerocubes = list()

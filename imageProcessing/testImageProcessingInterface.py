@@ -122,8 +122,12 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         self.assertEqual(imp._identify_aerocubes(), aerocube_list)
 
     @unittest.expectedFailure
-    def test_identify_multiple_aerocubes(self):
+    def test_identify_aerocubes_multiple(self):
         self.fail()
+
+    def test_identify_aerocubes_none(self):
+        imp = ImageProcessor(self.TEST_NO_MARKER.img_path)
+        self.assertEqual([], imp._identify_aerocubes())
 
     def test_scan_image(self):
         imp = ImageProcessor(self.TEST_SINGLE_MARKER.img_path)
