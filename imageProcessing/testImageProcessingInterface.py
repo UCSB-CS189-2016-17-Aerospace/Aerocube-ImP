@@ -107,7 +107,7 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
     def test_find_aerocube_markers_none(self):
         # get hard-coded results
         aerocube_markers = []
-        # get results from ImP
+        # get ImP results
         imp = ImageProcessor(self.TEST_NO_MARKER.img_path)
         test_markers = imp._find_aerocube_markers()
         self.assertTrue(np.array_equal(aerocube_markers, test_markers))
@@ -121,19 +121,32 @@ class TestImageProcessingInterfaceMethods(unittest.TestCase):
         imp = ImageProcessor(self.TEST_SINGLE_MARKER.img_path)
         self.assertEqual(imp._identify_aerocubes(), aerocube_list)
 
-    @unittest.expectedFailure
     def test_identify_aerocubes_multiple(self):
-        self.fail()
+        # get hard-coded results
+        corners = self.TEST_MULT_AEROCUBES.corners
+        aerocube_2_markers = [AeroCubeMarker(2, AeroCubeFace.ZENITH, corners[0])]
+        aerocube_0_markers = [AeroCubeMarker(0,   AeroCubeFace.BACK, corners[1])]
+        aerocubes = [AeroCube(aerocube_2_markers), AeroCube(aerocube_0_markers)]
+        # get ImP results
+        imp = ImageProcessor(self.TEST_MULT_AEROCUBES.img_path)
+        test_aerocubes = imp._identify_aerocubes()
+        # assert equality
+        self.assertTrue(np.array_equal(aerocubes, test_aerocubes))
 
     def test_identify_aerocubes_none(self):
         imp = ImageProcessor(self.TEST_NO_MARKER.img_path)
         self.assertEqual([], imp._identify_aerocubes())
 
     def test_scan_image(self):
+        # get hard-coded results
+        corners = self.TEST_SINGLE_MARKER.corners
+        marker_list = [AeroCubeMarker(0, AeroCubeFace.ZENITH, corners[0])]
+        aerocube_list = [AeroCube(marker_list)]
+        # get ImP results
         imp = ImageProcessor(self.TEST_SINGLE_MARKER.img_path)
         scan_results = imp.scan_image(ImageEventSignal.IDENTIFY_AEROCUBES)
-        # TODO: force this to fail until _identify_aerocubes is implemented
-        self.fail()
+        # assert equality
+        self.assertTrue(np.array_equal(aerocube_list, scan_results))
 
     def test_draw_fiducial_markers(self):
         imp = ImageProcessor(self.TEST_SINGLE_MARKER.img_path)

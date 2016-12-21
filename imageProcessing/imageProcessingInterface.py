@@ -66,7 +66,7 @@ class ImageProcessor:
                 aerocube_markers.append(AeroCubeMarker(ID[0], face, corners))
             return aerocube_markers
 
-    def _identify_aerocubes(self):
+    def _identify_aerocubes(self, *args, **kwargs):
         """
         Internal function called when ImP receives a ImageEventSignal.IDENTIFY_AEROCUBES signal.
         :return: array of AeroCube objects; [] if no AeroCubes found
@@ -100,10 +100,14 @@ class ImageProcessor:
         except KeyError:
             # img_signal is not defined for the dispatcher
             # TODO: how to handle?
+            print("KeyError")
             pass
-        except Exception:
+        except Exception as ex:
             # all other exceptions
             # TODO: how to handle?
+            template = "An exception of type {0} occured. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print(message)
             pass
 
     def draw_fiducial_markers(self, corners, marker_IDs):
