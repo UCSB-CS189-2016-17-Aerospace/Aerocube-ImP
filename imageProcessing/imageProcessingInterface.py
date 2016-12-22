@@ -3,10 +3,19 @@ import cv2
 from cv2 import aruco
 import os
 from .aerocubeMarker import AeroCubeMarker, AeroCubeFace, AeroCube
+from .cameraCalibration import CameraCalibration
 from eventClass.aeroCubeSignal import ImageEventSignal
 
 
 class ImageProcessor:
+    """
+    Reference on class docs: http://stackoverflow.com/questions/8649105/how-to-show-instance-attributes-in-sphinx-doc
+    Instantiated with an image, provides the ability to process the image in various
+    ways, most often by passing it AeroCubeSignal enum objects.
+    :cvar _DICTIONARY: Aruco dictionary meant to be accessed only internally
+    :ivar _img_mat: holds the matrix represnetation of an image
+    :ivar _dispatcher: dictionary mapping AeroCubeSignals to functions
+    """
     _DICTIONARY = AeroCubeMarker.get_dictionary()
 
     def __init__(self, file_path):
@@ -79,8 +88,30 @@ class ImageProcessor:
             aerocubes.append(AeroCube(list(aerocube_markers)))
         return aerocubes
 
-    def _find_attitude(self):
-        pass
+    # TODO: needs tests and perhaps better-defined behavior
+    def _find_pose(self):
+        """
+        Find the pose of identified markers.
+        References:
+            * http://docs.opencv.org/trunk/d5/dae/tutorial_aruco_detection.html
+            * solvePnP: http://docs.opencv.org/trunk/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
+            * Perspective-n-Point: https://en.wikipedia.org/wiki/Perspective-n-Point
+        :return rvecs: rotation vectors
+        :return tvecs: translation vectors
+        """
+        # get corners and marker length (from settings)
+        corners, _ = self._find_fiducial_markers()
+        marker_length = AeroCubeMarker.MARKER_LENGTH
+        # get camera calibration
+        cal = CameraCalibration.PredefinedCalibration.ANDREW_IPHONE
+        camera_matrix = cal.CAMERA_MATRIX
+        dist_coeffs = cal.DIST_COEFFS
+        # call aruco function
+        rvecs, tvecs = aruco.estimatePoseSingleMarkers(corners,
+                                                       marker_length,
+                                                       camera_matrix,
+                                                       dist_coeffs)
+        return (rvecs, tvecs)
 
     def _find_position(self):
         pass

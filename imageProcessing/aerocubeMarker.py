@@ -1,9 +1,11 @@
 from enum import Enum
 import numpy as np
+from .settings import ImageProcessingSettings
 from ImP.fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 
 
 class AeroCubeMarker(FiducialMarker):
+    MARKER_LENGTH = ImageProcessingSettings.get_marker_length()
 
     def __init__(self, aerocube_ID, aerocube_face, corners):
         self.aerocube_ID = aerocube_ID
