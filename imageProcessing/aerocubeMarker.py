@@ -4,16 +4,13 @@ from ImP.fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDicti
 
 
 class AeroCubeMarker(FiducialMarker):
-    _aerocube_ID = None
-    _aerocube_face = None
-    _corners = None
-    _rvec = None  # rotation vector
-    _tvec = None  # translation vector
 
     def __init__(self, aerocube_ID, aerocube_face, corners):
         self.aerocube_ID = aerocube_ID
         self.aerocube_face = aerocube_face
         self.corners = corners
+        self._rvec = None  # rotation vector
+        self._tvec = None  # translation vector
 
     def __eq__(self, other):
         if type(self) is type(other):
