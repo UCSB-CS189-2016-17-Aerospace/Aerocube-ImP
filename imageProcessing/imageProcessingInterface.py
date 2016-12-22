@@ -7,9 +7,7 @@ from eventClass.aeroCubeSignal import ImageEventSignal
 
 
 class ImageProcessor:
-    _img_mat = None
     _DICTIONARY = AeroCubeMarker.get_dictionary()
-    _dispatcher = None
 
     def __init__(self, file_path):
         self._img_mat = self._load_image(file_path)
