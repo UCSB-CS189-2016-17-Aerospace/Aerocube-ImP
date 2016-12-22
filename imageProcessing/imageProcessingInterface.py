@@ -10,6 +10,10 @@ class ImageProcessor:
     _DICTIONARY = AeroCubeMarker.get_dictionary()
 
     def __init__(self, file_path):
+        """
+        Upon instantiation, use file_path to load the image for this ImageProcessor
+        :param file_path: path to image to be processed
+        """
         self._img_mat = self._load_image(file_path)
         self._dispatcher = {
             ImageEventSignal.IDENTIFY_AEROCUBES: self._identify_aerocubes
