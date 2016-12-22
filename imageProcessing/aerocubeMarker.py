@@ -1,25 +1,22 @@
 from enum import Enum
-import numpy
+import numpy as np
 from ImP.fiducialMarkerModule.fiducialMarker import FiducialMarker, IDOutOfDictionaryBoundError
 
 
 class AeroCubeMarker(FiducialMarker):
-    _aerocube_ID = None
-    _aerocube_face = None
-    _corners = None
-    _rvec = None  # rotation vector
-    _tvec = None  # translation vector
 
     def __init__(self, aerocube_ID, aerocube_face, corners):
         self.aerocube_ID = aerocube_ID
         self.aerocube_face = aerocube_face
         self.corners = corners
+        self._rvec = None  # rotation vector
+        self._tvec = None  # translation vector
 
     def __eq__(self, other):
         if type(self) is type(other):
             return (self.aerocube_ID == other.aerocube_ID and
                     self.aerocube_face == other.aerocube_face and
-                    numpy.array_equal(self.corners, other.corners))
+                    np.array_equal(self.corners, other.corners))
         else:
             return False
 
@@ -97,18 +94,70 @@ class AeroCubeFace(Enum):
 
 class AeroCube():
     NUM_SIDES = 6
-    _ID = None
-    _markers = None
-    _rvec = None
-    _tvec = None
+
+    # Give _ERR_MESSAGES keys unique, but otherwise arbitrary, values
+    _MARKERS_EMPTY, _MARKERS_HAVE_MANY_AEROCUBES, _DUPLICATE_MARKERS = range(3)
+
+    _ERR_MESSAGES = {
+        _MARKERS_EMPTY:               "Markers for an AeroCube cannot be empty",
+        _MARKERS_HAVE_MANY_AEROCUBES: "AeroCube Markers do not belong to same AeroCube (IDs are {})"
+    }
 
     def __init__(self, markers):
+        # Check if arguments are valid
+        self.raise_if_markers_invalid(markers)
+        # Set instance variables
         self._markers = markers
+        self._ID = markers[0].aerocube_ID
+        self._rvec = None
+        self._tvec = None
+
+    def __eq__(self, other):
+        """
+        Checks if two AeroCube objects are equivalent based on
+            1. ID
+            2. Identified markers
+            3. Rotational vector(s)
+            4. Translational vector(s)
+        :return: boolean indicating equivalence of self and other
+        """
+        return self.ID == other.ID and \
+            np.array_equal(self.markers, other.markers) and \
+            np.array_equal(self.rvec, other.rvec) and \
+            np.array_equal(self.tvec, other.tvec)
+
+    @property
+    def markers(self):
+        return self._markers
+
+    @property
+    def ID(self):
+        return self._ID
+
+    @property
+    def rvec(self):
+        return self._rvec
+
+    @property
+    def tvec(self):
+        return self._tvec
 
     @staticmethod
-    def check_if_markers_valid(markers):
+    def raise_if_markers_invalid(markers):
+        """
+        Tests if the given array of AeroCube Markers are a valid set to be input as
+        constructor arguments for an AeroCube.
+        If markers are invalid, raise an exception.
+        Checks for the following condition:
+            1. Markers is non-empty (an AeroCube object should not be created if there are no markers)
+            2. Markers have identical AeroCube IDs
+        :param markers: array of AeroCube Markers to be tested
+        """
+        if not markers:
+            raise AttributeError(AeroCube._ERR_MESSAGES[AeroCube._MARKERS_EMPTY])
         if not all(marker.aerocube_ID == markers[0].aerocube_ID for marker in markers):
-            raise AttributeError("AeroCube Markers do not belong to same AeroCube")
+            aerocube_IDs = set([marker.aerocube_ID for marker in markers])
+            raise AttributeError(AeroCube._ERR_MESSAGES[AeroCube._MARKERS_HAVE_MANY_AEROCUBES].format(aerocube_IDs))
 
 
 class AeroCubeMarkerAttributeError(Exception):
